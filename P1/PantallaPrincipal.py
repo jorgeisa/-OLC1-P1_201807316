@@ -14,7 +14,7 @@ class PantallaPrincipal:
         self.txtConsola = Entry(self.window, width=10)
 
         # PROPIEDADES DE LA VENTANA, CENTRADO, TAMANIO, etc
-        self.window.title("Proyecto 1 - Pantalla Principal")  # Titulo de la ventana
+        self.window.title("Proyecto 1 - Analizador JavaScript")  # Titulo de la ventana
         widthTK = 800  # Ancho predeterminado de la ventana
         heightTK = 700  # Alura predeterminada de la ventana
         widthScreen = self.window.winfo_screenwidth()  # Ancho de la pantalla
@@ -29,7 +29,7 @@ class PantallaPrincipal:
 
         # LABEL TITULO PROPIEDADES
         # Posicionandolo en la ventana, texto a mostrar, tipo letra, fondo del label
-        self.lbl = Label(self.window, text="Proyecto 1 - Menu", font=("Arial Bold", 15), bg='#17A589')
+        self.lbl = Label(self.window, text="Proyecto 1 - Pantalla Principal", font=("Arial Bold", 15), bg='#17A589')
         self.lbl.pack(fill=X)  # Label estirado por el eje X en su posicion
 
         # PROPIEDADES DEL MENU DESPLEGABLE
