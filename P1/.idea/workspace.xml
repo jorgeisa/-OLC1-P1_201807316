@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2d5adfe7-6789-4bcd-9ea1-c837c3baac28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AFDJS.jff" beforeDir="false" afterPath="$PROJECT_DIR$/AFDJS.jff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AFDJS.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/AFDJS.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnalizadorLexicoJS.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorLexicoJS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Token.py" beforeDir="false" afterPath="$PROJECT_DIR$/Token.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,29 +116,41 @@
       <option name="presentableId" value="Default" />
       <updated>1598496961735</updated>
     </task>
+    <task id="LOCAL-00001" summary="Analizador JS">
+      <created>1599466819192</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1599466819192</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Analizador JS" />
+    <option name="LAST_COMMIT_MESSAGE" value="Analizador JS" />
   </component>
   <component name="WindowStateProjectService">
     <state x="140" y="0" key="CommitChangelistDialog2" timestamp="1599466816928">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="140" y="0" key="CommitChangelistDialog2/0.0.1536.864@0.0.1536.864" timestamp="1599466816928" />
-    <state width="1515" height="140" key="GridCell.Tab.0.bottom" timestamp="1599466673823">
+    <state width="1515" height="281" key="GridCell.Tab.0.bottom" timestamp="1599470867018">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="140" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599466673823" />
-    <state width="1515" height="140" key="GridCell.Tab.0.center" timestamp="1599466673823">
+    <state width="1515" height="281" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599470867018" />
+    <state width="1515" height="281" key="GridCell.Tab.0.center" timestamp="1599470867018">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="140" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1599466673823" />
-    <state width="1515" height="140" key="GridCell.Tab.0.left" timestamp="1599466673822">
+    <state width="1515" height="281" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1599470867018" />
+    <state width="1515" height="281" key="GridCell.Tab.0.left" timestamp="1599470867017">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="140" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1599466673822" />
-    <state width="1515" height="140" key="GridCell.Tab.0.right" timestamp="1599466673823">
+    <state width="1515" height="281" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1599470867017" />
+    <state width="1515" height="281" key="GridCell.Tab.0.right" timestamp="1599470867018">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="140" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1599466673823" />
+    <state width="1515" height="281" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1599470867018" />
     <state width="1515" height="242" key="GridCell.Tab.1.bottom" timestamp="1599437113040">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -172,13 +183,13 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="885" y="77" width="636" height="591" key="dock-window-1/0.0.1536.864@0.0.1536.864" timestamp="1599440354607" />
-    <state x="762" y="0" width="781" height="870" key="dock-window-2" timestamp="1599453258301">
+    <state x="762" y="0" width="781" height="870" key="dock-window-2" timestamp="1599474838572">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="762" y="0" width="781" height="870" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1599453258301" />
-    <state x="0" y="0" width="636" height="591" key="dock-window-3" timestamp="1599463574490">
+    <state x="762" y="0" width="781" height="870" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1599474838572" />
+    <state x="0" y="0" width="636" height="591" key="dock-window-3" timestamp="1599470918597">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="0" y="0" width="636" height="591" key="dock-window-3/0.0.1536.864@0.0.1536.864" timestamp="1599463574490" />
+    <state x="0" y="0" width="636" height="591" key="dock-window-3/0.0.1536.864@0.0.1536.864" timestamp="1599470918597" />
   </component>
 </project>

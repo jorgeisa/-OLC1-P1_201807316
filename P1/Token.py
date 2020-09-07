@@ -1,4 +1,5 @@
 from enum import Enum
+from Posicion import Posicion
 
 
 class TipoToken(Enum):
@@ -80,12 +81,19 @@ class TipoToken(Enum):
 
 class Token:
 
-    def __init__(self, tipoToken, lexemaValor):
+    def __init__(self, tipoToken, lexemaValor, posicion):
         self.tipoToken = tipoToken
         self.lexemaValor = lexemaValor
+        self.Posicion = posicion
 
     def getValor(self):
         return self.lexemaValor
 
     def getTipoToken(self):
         return self.tipoToken
+
+    def getPosicion(self):
+        return self.Posicion
+
+    def setPosicion(self, posicion):
+        self.Posicion = posicion

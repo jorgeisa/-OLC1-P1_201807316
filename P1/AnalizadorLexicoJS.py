@@ -1,6 +1,6 @@
 from Token import TipoToken
 from Token import Token
-
+from Posicion import Posicion
 
 class AnalizadorLexicoJS():
 
@@ -10,6 +10,8 @@ class AnalizadorLexicoJS():
         self.entradaTexto = ""
         self.lexemaTemp = ""
         self.estado = 0
+        self.contadorV = 0
+        self.contadorH = 0
         self.posicion = 0
 
     def agregarToken(self, tipoToken, lexemaValor):
@@ -30,8 +32,10 @@ class AnalizadorLexicoJS():
             # if self.estado == 0:
             if self.evaluarSimbolos():
                 self.posicion += 1
+                self.contadorH += 1
                 caracterActual = self.entradaTexto[self.posicion]
 
+            # E0 -> E Simbolos "Especiales"
             elif caracterActual == "+":
                 self.estadoE13()
             elif caracterActual == "=":
@@ -49,7 +53,6 @@ class AnalizadorLexicoJS():
             elif caracterActual == "|":
                 self.estadoE19()
 
-
             # E0 -> E1
             elif caracterActual.isnumeric():  # NUMERO ENTERO
                 self.estadoE1()
@@ -60,17 +63,21 @@ class AnalizadorLexicoJS():
                 self.estadoE6()
                 self.posicion = finalActual  # poner fuera del metodo
 
-            # E0 -> E1
+            # E0 -> E8
             elif caracterActual == "/":  # comentario , /
                 self.estadoE8()
-
+            # E0 -> E cadenas
             elif caracterActual == "'":
                 self.estadoE20()
-
+            # E0 -> E cadenas
             elif caracterActual == "\"":
                 self.estadoE21()
-
+            # E0 -> E0
             elif caracterActual == " " or caracterActual == "\t" or caracterActual == "\n":
+                if caracterActual == "\n":
+                    self.contadorV += 1
+                else:
+                    self.contadorH += 1
                 self.posicion += 1
                 continue
             else:
