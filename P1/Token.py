@@ -81,19 +81,12 @@ class TipoToken(Enum):
 
 class Token:
 
-    def __init__(self, tipoToken, lexemaValor, posicion):
+    def __init__(self, tipoToken, lexemaValor):
         self.tipoToken = tipoToken
         self.lexemaValor = lexemaValor
-        self.Posicion = posicion
 
     def getValor(self):
         return self.lexemaValor
 
     def getTipoToken(self):
         return self.tipoToken
-
-    def getPosicion(self):
-        return self.Posicion
-
-    def setPosicion(self, posicion):
-        self.Posicion = posicion

@@ -1,8 +1,10 @@
 from Token import TipoToken
 from Token import Token
+from ErrorLexico import ErrorLexico
 from Posicion import Posicion
 
-class AnalizadorLexicoJS():
+
+class AnalizadorLexicoJS:
 
     def __init__(self):
         self.lista_Tokens = list()
@@ -10,14 +12,17 @@ class AnalizadorLexicoJS():
         self.entradaTexto = ""
         self.lexemaTemp = ""
         self.estado = 0
-        self.contadorV = 0
-        self.contadorH = 0
+        self.contadorV = 1
+        self.contadorH = 1
         self.posicion = 0
 
     def agregarToken(self, tipoToken, lexemaValor):
         self.lista_Tokens.append(Token(tipoToken, lexemaValor))
         self.estado = 0
         self.lexemaTemp = ""
+
+    def agregarError(self, valor, posicionColumna, posicionFila):
+        self.lista_ErroresLexicos.append(ErrorLexico(valor, Posicion(posicionColumna, posicionFila)))
 
     def ScannerJS(self, entrada):
         self.entradaTexto += f"{entrada}#"
@@ -76,6 +81,7 @@ class AnalizadorLexicoJS():
             elif caracterActual == " " or caracterActual == "\t" or caracterActual == "\n":
                 if caracterActual == "\n":
                     self.contadorV += 1
+                    self.contadorH = 1
                 else:
                     self.contadorH += 1
                 self.posicion += 1
@@ -84,10 +90,14 @@ class AnalizadorLexicoJS():
                 if (caracterActual == '#') and (self.posicion == (len(self.entradaTexto) - 1)):
                     print(len(self.entradaTexto))
                     self.imprimirTokens()
+                    print("----------------------")
+                    self.imprimirErrores()
                     print("analisis finalizado")
+                    print(f"Posicion: {self.contadorH}, {self.contadorV}")
                 else:
                     print(f"Error Lexico. {caracterActual}")
-                    self.lista_ErroresLexicos.append(caracterActual)
+                    self.agregarError(caracterActual, self.contadorH, self.contadorV)
+                self.contadorH += 1
                 self.posicion += 1
 
             # self.posicion += 1
@@ -96,18 +106,20 @@ class AnalizadorLexicoJS():
     # ----------------------     NUMEROS   ----------------------
     def estadoE1(self):  # numeros  111,111
         final = self.obtenerLongitud() + self.posicion
+
         #  final siempre sera una unidad mas grande de donde se debe parar
         while self.posicion < final:
             caracter = self.entradaTexto[self.posicion]
             if caracter.isnumeric():
                 self.lexemaTemp += caracter
             else:
-                self.lista_ErroresLexicos.append(caracter)
+                self.agregarError(caracter, self.contadorH-1, self.contadorV)
                 print(f"Error Lexico: {caracter}")
 
             if self.posicion + 1 == final:
                 self.agregarToken(TipoToken.NUMERO_ENTERO, self.lexemaTemp)
             self.posicion += 1  # Para recorrer el while
+            self.contadorH += 1
         self.posicion = final
 
     # ----------------------     PALABRAS RESERVADAS   ----------------------
@@ -117,6 +129,7 @@ class AnalizadorLexicoJS():
             self.lexemaTemp += self.entradaTexto[i]
 
         if self.evaluarReservadas():
+            self.contadorH += self.obtenerLongitud()
             return
 
         self.estadoE2(final)
@@ -133,13 +146,13 @@ class AnalizadorLexicoJS():
             elif caracter == "_":
                 self.lexemaTemp += caracter
             else:
-                self.lista_ErroresLexicos.append(caracter)
-                #  self.agregarToken(TipoToken.DESCONOCIDO, caracter)
+                self.agregarError(caracter, self.contadorH-1, self.contadorV)
                 print(f"Error Lexico. {caracter}")
-            if self.posicion + 1 == final:
+            if (self.posicion + 1) == final:
                 if not self.evaluarReservadas():
                     self.agregarToken(TipoToken.ID, self.lexemaTemp)
             self.posicion += 1
+            self.contadorH += 1
 
     # ----------------------     COMENTARIOS     ----------------------
     def estadoE8(self):  # comentarios
@@ -149,11 +162,13 @@ class AnalizadorLexicoJS():
         if caracter == "/":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.estadoE9()
             return
         elif caracter == "*":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.estadoE10()
             return
         else:
@@ -169,6 +184,7 @@ class AnalizadorLexicoJS():
             else:
                 self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
 
     def estadoE10(self):
         while self.posicion < len(self.entradaTexto):
@@ -178,12 +194,17 @@ class AnalizadorLexicoJS():
                 if self.entradaTexto[self.posicion + 1] == "/":
                     self.lexemaTemp += self.entradaTexto[self.posicion + 1]
                     self.posicion += 2
+                    self.contadorH += 2
                     self.agregarToken(TipoToken.COMENTARIO_MULTILINEA, self.lexemaTemp)
                     return
             else:
                 self.lexemaTemp += caracter
+                if caracter == "\n":
+                    self.contadorV += 1
             self.posicion += 1
+            self.contadorH += 1
         self.posicion -= 1
+        self.contadorH -= 1
         self.agregarToken(TipoToken.COMENTARIO_MULTILINEA, self.lexemaTemp)
         print(f"No se detecto */")
         self.lexemaTemp = ""
@@ -192,6 +213,7 @@ class AnalizadorLexicoJS():
     def estadoE13(self):  # += , ++
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
 
         caracter = self.entradaTexto[self.posicion]
 
@@ -204,27 +226,33 @@ class AnalizadorLexicoJS():
         else:
             self.agregarToken(TipoToken.SIGNO_SUMA, self.lexemaTemp)
             self.posicion -= 1
+            self.contadorH -= 1
         self.posicion += 1
+        self.contadorH += 1
 
     # == , ===, =>, =
     def estadoE14(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         caracter = self.entradaTexto[self.posicion]
 
         if caracter == "=":  # = =
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             caracter = self.entradaTexto[self.posicion]  # == =
             if caracter == "=":
                 self.lexemaTemp += caracter
                 self.posicion += 1
+                self.contadorH += 1
                 self.agregarToken(TipoToken.SIMBOLO_ESTRICTAMENTE_IGUALES, self.lexemaTemp)
             else:
                 self.agregarToken(TipoToken.RELACIONAL_IGUAL, self.lexemaTemp)
         elif caracter == ">":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.agregarToken(TipoToken.SIMBOLO_LAMBDA, self.lexemaTemp)
         else:
             self.agregarToken(TipoToken.SIMBOLO_IGUAL, self.lexemaTemp)
@@ -232,11 +260,13 @@ class AnalizadorLexicoJS():
     def estadoE15(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         caracter = self.entradaTexto[self.posicion]
 
         if caracter == "=":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.agregarToken(TipoToken.RELACIONAL_MAYOR_IGUAL, self.lexemaTemp)
         else:
             self.agregarToken(TipoToken.SIMBOLO_MAYOR_QUE, self.lexemaTemp)
@@ -244,11 +274,13 @@ class AnalizadorLexicoJS():
     def estadoE16(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         caracter = self.entradaTexto[self.posicion]
 
         if caracter == "=":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.agregarToken(TipoToken.SIMBOLO_ASIGNACION_MULTIPLICACION, self.lexemaTemp)
         else:
             self.agregarToken(TipoToken.SIGNO_MULTIPLICACION, self.lexemaTemp)
@@ -256,11 +288,13 @@ class AnalizadorLexicoJS():
     def estadoE17(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         caracter = self.entradaTexto[self.posicion]
 
         if caracter == "=":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.agregarToken(TipoToken.RELACIONAL_DISTINTO, self.lexemaTemp)
         else:
             self.agregarToken(TipoToken.SIMBOLO_NEGACION, self.lexemaTemp)
@@ -272,57 +306,71 @@ class AnalizadorLexicoJS():
         if caracter == "&":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.agregarToken(TipoToken.LOGICO_CONJUNCION, self.lexemaTemp)
         else:
             print(f"Error Lexico: {self.lexemaTemp}")
+            self.agregarError(self.lexemaTemp, self.contadorH, self.contadorV)
+            self.contadorH += 1
         self.lexemaTemp = ""
 
     def estadoE19(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         caracter = self.entradaTexto[self.posicion]
         if caracter == "|":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.agregarToken(TipoToken.LOGICO_DISYUNCION, self.lexemaTemp)
         else:
             print(f"Error Lexico: {self.lexemaTemp}")
+            self.agregarError(self.lexemaTemp, self.contadorH, self.contadorV)
         self.lexemaTemp = ""
 
     def estadoE20(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         while self.entradaTexto[self.posicion] != "\n":
             caracter = self.entradaTexto[self.posicion]
             self.lexemaTemp += caracter
             if caracter == "'":
                 self.agregarToken(TipoToken.CADENA_SIMPLES, self.lexemaTemp)
                 self.posicion += 1
+                self.contadorH += 1
                 return
             self.posicion += 1
+            self.contadorH += 1
         self.agregarToken(TipoToken.CADENA_SIMPLES, self.lexemaTemp)
 
     def estadoE21(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         while self.entradaTexto[self.posicion] != "\n":
             caracter = self.entradaTexto[self.posicion]
             self.lexemaTemp += caracter
             if caracter == "\"":
                 self.agregarToken(TipoToken.CADENA_DOBLES, self.lexemaTemp)
                 self.posicion += 1
+                self.contadorH += 1
                 return
+            self.contadorH += 1
             self.posicion += 1
         self.agregarToken(TipoToken.CADENA_DOBLES, self.lexemaTemp)
 
     def estadoE22(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         caracter = self.entradaTexto[self.posicion]
 
         if caracter == "=":
             self.lexemaTemp += caracter
             self.posicion += 1
+            self.contadorH += 1
             self.agregarToken(TipoToken.RELACIONAL_MENOR_IGUAL, self.lexemaTemp)
         else:
             self.agregarToken(TipoToken.SIMBOLO_MENOR_QUE, self.lexemaTemp)
@@ -359,7 +407,6 @@ class AnalizadorLexicoJS():
             return True
         return False
 
-
     # ----------------------     EVALUAR PALABRAS RESERVADAS     ----------------------
     def evaluarReservadas(self):
         if self.lexemaTemp.lower() == "return":
@@ -394,7 +441,7 @@ class AnalizadorLexicoJS():
             return True
         return False
 
-    # ----------------------     OBTENER LAL ONGITUD ANTES DE UN ESPACIO, ETC     ----------------------
+    # ----------------------     OBTENER LA LONGITUD ANTES DE UN ESPACIO, ETC     ----------------------
     def obtenerLongitud(self):
         contador = 0
         for i in range(self.posicion, len(self.entradaTexto) - 1):
@@ -409,6 +456,14 @@ class AnalizadorLexicoJS():
                 break
             contador += 1
         return contador
+
+    def imprimirErrores(self):
+        contador = 0
+        for i in range(0, len(self.lista_ErroresLexicos)):
+            contador += 1
+            print(f"{contador}. ERROR LEXICO: {self.lista_ErroresLexicos[i].valor}, "
+                  f"POSICION: {self.lista_ErroresLexicos[i].posicion.getPosicionH()} ,"
+                  f"{self.lista_ErroresLexicos[i].posicion.posicionV}")
 
     def imprimirTokens(self):
         contador = 0

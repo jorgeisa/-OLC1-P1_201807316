@@ -4,3 +4,8 @@ class Posicion:
         self.posicionH = posicionH
         self.posicionV = posicionV
 
+    def getPosicionH(self):
+        return self.posicionH
+
+    def getPosicionV(self):
+        return self.posicionV
