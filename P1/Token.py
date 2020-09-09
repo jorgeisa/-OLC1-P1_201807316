@@ -78,6 +78,10 @@ class TipoToken(Enum):
         return self.value
 
 
+class TipoTokenCSS(Enum):
+    ENUM = 0
+
+
 class Token:
 
     def __init__(self, tipoToken, lexemaValor):

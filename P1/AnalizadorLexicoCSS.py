@@ -1,3 +1,4 @@
+
 class AnalizadorLexicoCSS:
     def __init__(self):
         self.lista_Tokens = list()
@@ -7,3 +8,5 @@ class AnalizadorLexicoCSS:
         self.contadorV = 1
         self.contadorH = 1
         self.posicion = 0
+
+

@@ -12,7 +12,8 @@ class AnalizadorLexicoJS:
         self.entradaTexto = ""
         self.lexemaTemp = ""
         self.textoCorregido = ""
-        # self.estado = 0
+        self.pathSalida = ""
+        self.contadorComentario = 0  # "Bandera para evalura el primer comentario para el path"
         self.contadorV = 1
         self.contadorH = 1
         self.posicion = 0
@@ -95,10 +96,10 @@ class AnalizadorLexicoJS:
                 continue
             else:
                 if (caracterActual == '#') and (self.posicion == (len(self.entradaTexto) - 1)):
-                    print(len(self.entradaTexto))
-                    self.imprimirTokens()
-                    print("----------------------")
-                    self.imprimirErrores()
+                    # print(len(self.entradaTexto))
+                    # self.imprimirTokens()
+                    # print("----------------------")
+                    # self.imprimirErrores()
                     print("analisis finalizado")
                     print(f"Posicion: {self.contadorH}, {self.contadorV}")
                 else:
@@ -167,6 +168,9 @@ class AnalizadorLexicoJS:
         self.posicion += 1
         caracter = self.entradaTexto[self.posicion]
         if caracter == "/":
+            # Para el path del comentario
+            if self.contadorComentario != 3:
+                self.contadorComentario += 1
             self.lexemaTemp += caracter
             self.posicion += 1
             self.contadorH += 1
@@ -182,14 +186,25 @@ class AnalizadorLexicoJS:
             self.agregarToken(TipoToken.SIGNO_DIVISION, self.lexemaTemp)
             return
 
+    # Comentario unilinea
     def estadoE9(self):
         while self.posicion < len(self.entradaTexto):
             caracter = self.entradaTexto[self.posicion]
+
             if caracter == "\n":
                 self.agregarToken(TipoToken.COMENTARIO_UNILINEA, self.lexemaTemp)
                 return
+
+            # Recuperar Path de Salida
+            if caracter == "C" and self.contadorComentario == 2:
+                self.contadorComentario += 1
+                contadorPath = self.posicion
+                while self.entradaTexto[contadorPath] != "\n":
+                    self.pathSalida += self.entradaTexto[contadorPath]
+                    contadorPath += 1
             else:
                 self.lexemaTemp += caracter
+
             self.posicion += 1
             self.contadorH += 1
 

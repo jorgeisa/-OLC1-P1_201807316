@@ -49,7 +49,7 @@ class PantallaPrincipal:
         self.file_item.add_separator()
         self.file_item.add_command(label='Guardar archivo como...')
         self.file_item.add_separator()
-        self.file_item.add_command(label='Ejecutar Analisis JS', command=self.AnalisisJS)
+        self.file_item.add_command(label='Ejecutar Analisis JS', command=self.Analisis)
         self.file_item.add_separator()
         self.file_item.add_command(label='Exit')
 
@@ -86,7 +86,7 @@ class PantallaPrincipal:
         self.txtConsola = scrolledtext.ScrolledText(self.window, width=110, height=12, bg="#000000", fg="white")
         self.txtConsola.place(x=50, y=490)
         self.btn = Button(self.window, text="Analyze JS", bg="black", fg="white",
-                          command=self.AnalisisJS)  # boton ANALYZE
+                          command=self.Analisis)  # boton ANALYZE
         self.btn.place(x=655, y=460)
         self.btn = Button(self.window, text="Analyze CSS", bg="black", fg="white", command="")  # boton ANALYZE
         self.btn.place(x=755, y=460)
@@ -96,7 +96,7 @@ class PantallaPrincipal:
         # Dispara la interfaz y la mantiene abierta
         self.window.mainloop()
 
-    def AnalisisJS(self):
+    def Analisis(self):
         # Si abrimos algun archivo
         if self.nameArchivoEntrada != "":
             print(f"RUTA DE ENTRADA: {self.nameArchivoEntrada}")
@@ -119,7 +119,8 @@ class PantallaPrincipal:
                 # Imprimir en interfaz la lista de Tokens y de Errores
                 self.imprimirListasEnConsola(miScanner)
                 messagebox.showinfo('Project 1', 'Analisis Finalizado!')
-                self.crearArchivo(f"C:/Users/Isaac/Desktop/nombrexd.txt", miScanner.textoCorregido)
+                print(f"Este es la direccion de salida: {miScanner.pathSalida}")
+                self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
                 self.colorearJS(miScanner)
 
             elif extension == ".css":
@@ -131,7 +132,7 @@ class PantallaPrincipal:
             self.txtConsola.insert("1.0", "Abra un archivo de entrada!")
             # 111@11^11&11~
 
-#------------------------------- COLORES ANALIZAR JS ----------------------------------------------------------------
+# ------------------------------- COLORES ANALIZAR JS ----------------------------------------------------------------
     def colorearJS(self, miScannerJS):
         # imprimir Tokens en consola
         self.txtEntrada.delete("1.0", END)
@@ -187,6 +188,7 @@ class PantallaPrincipal:
         file.write(f"{textoCorregido}")
         file.close()
 
+# LAS LISTAS DE TODOS LOS ANALIZADORES SE LLAMAN IGUAL, ASI SOLO LLAMO A ESTA FUNCION
     def imprimirListasEnConsola(self, miScannerP):
         # Contadores de Listas
         contadorT = (len(miScannerP.lista_Tokens) + 1)
