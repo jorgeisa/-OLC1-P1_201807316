@@ -11,15 +11,20 @@ class AnalizadorLexicoJS:
         self.lista_ErroresLexicos = list()
         self.entradaTexto = ""
         self.lexemaTemp = ""
-        self.estado = 0
+        self.textoCorregido = ""
+        # self.estado = 0
         self.contadorV = 1
         self.contadorH = 1
         self.posicion = 0
 
     def agregarToken(self, tipoToken, lexemaValor):
         self.lista_Tokens.append(Token(tipoToken, lexemaValor))
-        self.estado = 0
+        self.textoCorregido += lexemaValor
+        # self.estado = 0
         self.lexemaTemp = ""
+
+    def agregarTokenNinguno(self,tipoToken, lexemaValor):
+        self.lista_Tokens.append(Token(tipoToken, lexemaValor))
 
     def agregarError(self, valor, posicionColumna, posicionFila):
         self.lista_ErroresLexicos.append(ErrorLexico(valor, Posicion(posicionColumna, posicionFila)))
@@ -84,6 +89,8 @@ class AnalizadorLexicoJS:
                     self.contadorH = 1
                 else:
                     self.contadorH += 1
+                self.textoCorregido += caracterActual
+                self.agregarTokenNinguno(TipoToken.NINGUNO, caracterActual)
                 self.posicion += 1
                 continue
             else:

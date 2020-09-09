@@ -4,19 +4,19 @@ from Posicion import Posicion
 
 class TipoToken(Enum):
     # Palabras Reservadas
-    RESERVADA_RETURN = 1
-    RESERVADA_BREAK = 2
-    RESERVADA_CONTINUE = 3
-    RESERVADA_DO = 4
-    RESERVADA_WHILE = 5
-    RESERVADA_FOR = 6
-    RESERVADA_IF = 7
-    RESERVADA_VAR = 8
-    RESERVADA_ELSE = 9
-    RESERVADA_THIS = 10
-    RESERVADA_CLASS = 11
-    RESERVADA_CONSOLE = 12
-    RESERVADA_LOG = 13
+    RESERVADA_RETURN = 1     #
+    RESERVADA_BREAK = 2      #
+    RESERVADA_CONTINUE = 3   #
+    RESERVADA_DO = 4         #
+    RESERVADA_WHILE = 5      #
+    RESERVADA_FOR = 6        #
+    RESERVADA_IF = 7         #
+    RESERVADA_VAR = 8        #
+    RESERVADA_ELSE = 9       #
+    RESERVADA_THIS = 10      #
+    RESERVADA_CLASS = 11     #
+    RESERVADA_CONSOLE = 12   #
+    RESERVADA_LOG = 13       #
     RESERVADA_FALSE = 14
     RESERVADA_TRUE = 15
     RESERVADA_CONSTRUCTOR = 16
@@ -72,7 +72,6 @@ class TipoToken(Enum):
     COMENTARIO_MULTILINEA = 303
     CADENA_SIMPLES = 304
     CADENA_DOBLES = 305
-    DESCONOCIDO = 350
     NINGUNO = 351
 
     def describe(self):
