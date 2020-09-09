@@ -10,8 +10,8 @@ class PantallaPrincipal:
     # Metodo que contiene la definicion de la interfaz grafica
     def __init__(self):
         self.window = Tk()
-        self.txtEntrada = Entry(self.window, width=10)
-        self.txtConsola = Entry(self.window, width=10)
+        self.txtEntrada = Entry(self.window, width=15)
+        self.txtConsola = Entry(self.window, width=15)
 
         # PROPIEDADES DE LA VENTANA, CENTRADO, TAMANIO, etc
         self.window.title("Proyecto 1 - Analizador JavaScript")  # Titulo de la ventana
@@ -23,7 +23,7 @@ class PantallaPrincipal:
         x = (widthScreen / 2) - (widthTK / 2)  # Posicion de centrado en x
         y = (heightScreen / 2) - (heightTK / 2)  # Posicion de centrado en y
 
-        self.window.geometry('%dx%d+%d+%d' % (widthTK, heightTK, x, y - 25))  # Colocarle la vetana en el centro
+        self.window.geometry('%dx%d+%d+%d' % (widthTK+200, heightTK, x, y - 25))  # Colocarle la vetana en el centro
 
         self.window.configure(bg='#6A90FF')  # Darle color a la ventana (fondo)
 
@@ -44,7 +44,7 @@ class PantallaPrincipal:
         self.file_item.add_separator()
         self.file_item.add_command(label='Guardar archivo como...')
         self.file_item.add_separator()
-        self.file_item.add_command(label='Ejecutar Analisis', command=self.Analisis)
+        self.file_item.add_command(label='Ejecutar Analisis JS', command=self.AnalisisJS)
         self.file_item.add_separator()
         self.file_item.add_command(label='Exit')
 
@@ -62,27 +62,45 @@ class PantallaPrincipal:
         self.window.config(menu=self.menu)
 
         # PROPIEDADES DEL TXTENTRADA (TEXTO A ANALIZAR)
-        self.txtEntrada = scrolledtext.ScrolledText(self.window, width=80, height=25)
+        self.txtEntrada = scrolledtext.ScrolledText(self.window, width=110, height=25)  #  80,25
         self.txtEntrada.pack()
         self.txtEntrada.place(x=50, y=50)
 
         # PROPIEDADES DE LA CONSOLA, SALIDA (ANALISIS EXISTOSO, etc)
         self.lbl = Label(self.window, text="Console:")
         self.lbl.place(x=50, y=465)
-        self.txtConsola = scrolledtext.ScrolledText(self.window, width=80, height=10, bg="#000000", fg="white")
+        self.txtConsola = scrolledtext.ScrolledText(self.window, width=110, height=10, bg="#000000", fg="white")
         self.txtConsola.place(x=50, y=490)
-        self.btn = Button(self.window, text="Analyze", bg="black", fg="white", command=self.Analisis)  # boton ANALYZE
+        self.btn = Button(self.window, text="Analyze JS", bg="black", fg="white", command=self.AnalisisJS)  # boton ANALYZE
         self.btn.place(x=655, y=460)
+        self.btn = Button(self.window, text="Analyze CSS", bg="black", fg="white", command="")  # boton ANALYZE
+        self.btn.place(x=755, y=460)
+        self.btn = Button(self.window, text="Analyze HTML", bg="black", fg="white", command="")  # boton ANALYZE
+        self.btn.place(x=855, y=460)
 
         # Dispara la interfaz y la mantiene abierta
         self.window.mainloop()
 
-    def Analisis(self):
+    def AnalisisJS(self):
         entrada = self.txtEntrada.get("1.0", END)  # fila 1 col 0 hasta fila 2 col 10
         miScanner = AnalizadorLexicoJS()
         retorno = miScanner.ScannerJS(entrada)
         self.txtConsola.delete("1.0", END)
-        self.txtConsola.insert("1.0", len(retorno))
+
+        contadorT = 0
+        contadorE = 0
+
+        for i in range(0, len(miScanner.lista_Tokens)):
+            contadorT += 1
+            self.txtConsola.insert("1.0", f"{contadorT}. TOKEN: {miScanner.lista_Tokens[i].tipoToken.name} ,"
+                                          f" VALOR: {miScanner.lista_Tokens[i].lexemaValor}\n")
+
+        for i in range(0, len(miScanner.lista_ErroresLexicos)):
+            contadorE += 1
+            self.txtConsola.insert("1.0", f"{contadorE}. ERROR LEXICO: {miScanner.lista_ErroresLexicos[i].valor}, "
+                                          f"POSICION: {miScanner.lista_ErroresLexicos[i].posicion.getPosicionH()} ,"
+                                          f"{miScanner.lista_ErroresLexicos[i].posicion.posicionV}\n")
+
         messagebox.showinfo('Project 1', 'Analysis Finished')
 
     # Dispara el Filechooser

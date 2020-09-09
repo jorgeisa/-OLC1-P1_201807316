@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2d5adfe7-6789-4bcd-9ea1-c837c3baac28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AnalizadorLexicoJS.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorLexicoJS.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Posicion.py" beforeDir="false" afterPath="$PROJECT_DIR$/Posicion.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Token.py" beforeDir="false" afterPath="$PROJECT_DIR$/Token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFDJS.jff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFDJS.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PantallaPrincipal.py" beforeDir="false" afterPath="$PROJECT_DIR$/PantallaPrincipal.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,6 +78,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="pruebaCursor (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="P1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/../../../../../../Carlos xd" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/../../../../../../Carlos xd/pruebaCursor.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="pruebaCursor" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="P1" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -100,6 +122,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.pruebaCursor (1)" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.pruebaCursor" />
         <item itemvalue="Python.PantallaPrincipal" />
@@ -136,22 +159,22 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="140" y="0" key="CommitChangelistDialog2/0.0.1536.864@0.0.1536.864" timestamp="1599466816928" />
-    <state width="1515" height="183" key="GridCell.Tab.0.bottom" timestamp="1599540741746">
+    <state width="1515" height="182" key="GridCell.Tab.0.bottom" timestamp="1599636473268">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="183" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599540741746" />
-    <state width="1515" height="183" key="GridCell.Tab.0.center" timestamp="1599540741745">
+    <state width="1515" height="182" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599636473268" />
+    <state width="1515" height="182" key="GridCell.Tab.0.center" timestamp="1599636473267">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="183" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1599540741745" />
-    <state width="1515" height="183" key="GridCell.Tab.0.left" timestamp="1599540741745">
+    <state width="1515" height="182" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1599636473267" />
+    <state width="1515" height="182" key="GridCell.Tab.0.left" timestamp="1599636473267">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="183" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1599540741745" />
-    <state width="1515" height="183" key="GridCell.Tab.0.right" timestamp="1599540741745">
+    <state width="1515" height="182" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1599636473267" />
+    <state width="1515" height="182" key="GridCell.Tab.0.right" timestamp="1599636473267">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="183" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1599540741745" />
+    <state width="1515" height="182" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1599636473267" />
     <state width="1515" height="242" key="GridCell.Tab.1.bottom" timestamp="1599437113040">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -184,10 +207,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="885" y="77" width="636" height="591" key="dock-window-1/0.0.1536.864@0.0.1536.864" timestamp="1599440354607" />
-    <state x="762" y="0" width="781" height="870" key="dock-window-2" timestamp="1599515878128">
+    <state x="758" y="0" width="781" height="866" key="dock-window-2" timestamp="1599608912064">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="762" y="0" width="781" height="870" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1599515878128" />
+    <state x="758" y="0" width="781" height="866" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1599608912064" />
     <state x="0" y="0" width="636" height="591" key="dock-window-3" timestamp="1599470918597">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
