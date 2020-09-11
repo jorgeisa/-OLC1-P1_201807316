@@ -7,6 +7,7 @@ from tkinter import messagebox  # message box
 from AnalizadorLexicoJS import AnalizadorLexicoJS
 from AnalizadorLexicoCSS import AnalizadorLexicoCSS
 from Token import TipoToken
+from Token import TipoTokenCSS
 
 
 class PantallaPrincipal:
@@ -128,11 +129,14 @@ class PantallaPrincipal:
                 miScanner = AnalizadorLexicoCSS()
                 listaTokens = miScanner.ScannerCSS(entrada)
 
+                # Borrar la consola
+                self.txtConsola.delete("1.0", END)
+
                 self.imprimirListasEnConsola(miScanner)
                 messagebox.showinfo('Project 1', 'Analisis Finalizado CSS!')
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
                 self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
-
+                self.colorearCSS(miScanner)
                 print(".css")
             elif extension == ".html":
                 print(".html")
@@ -141,7 +145,7 @@ class PantallaPrincipal:
             self.txtConsola.insert("1.0", "Abra un archivo de entrada!")
             # 111@11^11&11~
 
-    # ------------------------------- COLORES ANALIZAR JS ----------------------------------------------------------------
+    # ------------------------------- COLORES ANALIZAR JS ------------------------------------------------------------
     def colorearJS(self, miScannerJS):
         # imprimir Tokens en consola
         self.txtEntrada.delete("1.0", END)
@@ -177,6 +181,31 @@ class PantallaPrincipal:
             self.txtEntrada.insert(END, f"{token.lexemaValor}")
         elif token.tipoToken.value != 351:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOtros')
+
+    # ------------------------------- COLORES ANALIZAR CSS ------------------------------------------------------------
+    def colorearCSS(self, miScannerCSS):
+        self.txtEntrada.delete("1.0", END)
+        for i in miScannerCSS.lista_Tokens:
+            self.evaluarCSS(i)
+
+    def evaluarCSS(self, token):
+        if token.tipoToken.value == 1:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorReservada')
+        elif token.tipoToken.value == 301:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorVariable')
+        elif token.tipoToken.value == 302:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorCadenas')
+        elif token.tipoToken.value == 303:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorNumBool')
+        elif token.tipoToken.value == 300:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorComentario')
+        elif token.tipoToken.value == 200 or token.tipoToken.value == 201 or token.tipoToken.value == 110:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOperadores')
+        elif token.tipoToken.value == 401:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}")
+        elif token.tipoToken.value != 401:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOtros')
+
 
     # Dispara el Filechooser
     def abrirArchivo(self):

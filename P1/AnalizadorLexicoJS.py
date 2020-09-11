@@ -24,7 +24,7 @@ class AnalizadorLexicoJS:
         # self.estado = 0
         self.lexemaTemp = ""
 
-    def agregarTokenNinguno(self,tipoToken, lexemaValor):
+    def agregarTokenNinguno(self, tipoToken, lexemaValor):
         self.lista_Tokens.append(Token(tipoToken, lexemaValor))
 
     def agregarError(self, valor, posicionColumna, posicionFila):
@@ -37,7 +37,7 @@ class AnalizadorLexicoJS:
         while self.posicion < (len(self.entradaTexto)):
 
             caracterActual = self.entradaTexto[self.posicion]
-            #print(caracterActual)
+            # print(caracterActual)
 
             # E0 -> E7
             # if self.estado == 0:
@@ -144,7 +144,7 @@ class AnalizadorLexicoJS:
         self.estadoE2(final)
 
     def estadoE2(self, final):
-        self.lexemaTemp = ""          # 40,41,42,43,44,45,46,  47       ,48,49,50
+        self.lexemaTemp = ""  # 40,41,42,43,44,45,46,  47       ,48,49,50
         while self.posicion < final:  # id4@3id  0 - 6
             caracter = self.entradaTexto[self.posicion]
 
@@ -190,13 +190,15 @@ class AnalizadorLexicoJS:
 
     # Comentario unilinea
     def estadoE9(self):
+        #  //COMENTARIO    C
         while self.posicion < len(self.entradaTexto):
             caracter = self.entradaTexto[self.posicion]
 
             if caracter == "\n":
                 self.agregarToken(TipoToken.COMENTARIO_UNILINEA, self.lexemaTemp)
                 return
-
+            else:
+                self.lexemaTemp += caracter
             # Recuperar Path de Salida
             if caracter == "C" and self.contadorComentario == 2:
                 self.contadorComentario += 1
@@ -204,14 +206,12 @@ class AnalizadorLexicoJS:
                 while self.entradaTexto[contadorPath] != "\n":
                     self.pathSalida += self.entradaTexto[contadorPath]
                     contadorPath += 1
-            else:
-                self.lexemaTemp += caracter
 
             self.posicion += 1
             self.contadorH += 1
 
     def estadoE10(self):
-        while self.posicion < len(self.entradaTexto):
+        while self.posicion < (len(self.entradaTexto) - 1):
             caracter = self.entradaTexto[self.posicion]
             if caracter == "*":
                 self.lexemaTemp += caracter

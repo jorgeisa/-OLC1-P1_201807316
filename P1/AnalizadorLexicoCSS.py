@@ -98,7 +98,7 @@ class AnalizadorLexicoCSS:
             self.estadoE2()
 
     def estadoE2(self):
-        while self.posicion < len(self.entradaTexto):
+        while self.posicion < (len(self.entradaTexto)-1):
             caracter = self.entradaTexto[self.posicion]
 
             if caracter == "*":
@@ -122,7 +122,7 @@ class AnalizadorLexicoCSS:
                 while self.entradaTexto[contadorPath] != "*":
                     self.pathSalida += self.entradaTexto[contadorPath]
                     contadorPath += 1
-                    
+
             self.posicion += 1
             self.contadorH += 1
         self.posicion -= 1
@@ -134,6 +134,7 @@ class AnalizadorLexicoCSS:
     # -------------------- ID , #ID  ------------------------------------------
     def estadoE7(self):
         final = self.obtenerLongitud() + self.posicion
+        print(final)
         for i in range(self.posicion, final):
             self.lexemaTemp += self.entradaTexto[i]
         # E0 -> E7
@@ -146,35 +147,43 @@ class AnalizadorLexicoCSS:
 
     def estadoE8(self, final):
         self.lexemaTemp = ""
-        if self.entradaTexto[self.posicion + 1].isalpha():
-            while self.posicion < final:
-                caracterActual = self.entradaTexto[self.posicion]
 
-                if caracterActual.isalpha():
-                    self.lexemaTemp += caracterActual
-                elif caracterActual.isnumeric():
-                    self.lexemaTemp += caracterActual
-                elif caracterActual == "-":
-                    self.lexemaTemp += caracterActual
-                elif caracterActual == "#":
-                    self.lexemaTemp += caracterActual
-                else:
-                    self.agregarError(caracterActual, self.contadorH, self.contadorV)
-                    print(f"Error Lexico: {caracterActual}")
-                if (self.posicion + 1) == final:
-                    if not self.evaluarReservadas():
-                        self.agregarToken(TipoTokenCSS.ID, self.lexemaTemp)
+        caracterActual = self.entradaTexto[self.posicion]
+
+        if caracterActual == "#":
+            if self.entradaTexto[self.posicion + 1].isalpha():
+                self.lexemaTemp += caracterActual
                 self.posicion += 1
                 self.contadorH += 1
-        else:
+            else:
+                self.agregarError(caracterActual, self.contadorH, self.contadorV)
+                self.contadorH += 1
+                self.posicion += 1
+                return
+
+        while self.posicion < final:
             caracterActual = self.entradaTexto[self.posicion]
-            self.agregarError(caracterActual, self.contadorH, self.contadorV)
+
+            if caracterActual.isalpha():
+                self.lexemaTemp += caracterActual
+            elif caracterActual.isnumeric():
+                self.lexemaTemp += caracterActual
+            elif caracterActual == "-":
+                self.lexemaTemp += caracterActual
+            elif caracterActual == "#":
+                self.lexemaTemp += caracterActual
+            else:
+                self.agregarError(caracterActual, self.contadorH, self.contadorV)
+                print(f"Error Lexico: {caracterActual}")
+            if (self.posicion + 1) == final:
+                if not self.evaluarReservadas():
+                    self.agregarToken(TipoTokenCSS.ID, self.lexemaTemp)
             self.posicion += 1
             self.contadorH += 1
 
     # ----------------------     NUMEROS   ----------------------
     def estadoE9(self):
-        final = self.obtenerLongitud() + self.posicion
+        final = self.obtenerLongitudNumero() + self.posicion
         while self.posicion < final:
             caracter = self.entradaTexto[self.posicion]
             if caracter.isnumeric():
@@ -209,7 +218,7 @@ class AnalizadorLexicoCSS:
 
     # ------------------  CADENAS  -------------------------------
     def estadoE13(self):
-        self.lexemaTemp += self.entradaTexto [self.posicion]
+        self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
         self.contadorH += 1
         while self.entradaTexto[self.posicion] != "\n":
@@ -231,13 +240,13 @@ class AnalizadorLexicoCSS:
             self.agregarToken(TipoTokenCSS.SIMBOLO_COMA, ",")
             return True
         elif caracterActual == ";":
-            self.agregarToken(TipoTokenCSS.SIMBOLO_PUNTO_COMA, ";")
+            self.agregarToken(TipoTokenCSS.SIMBOLO_PUNTO_Y_COMA, ";")
             return True
         elif caracterActual == "{":
-            self.agregarToken(TipoTokenCSS.SIMBOLO_LLAVE_ABRE, "{")
+            self.agregarToken(TipoTokenCSS.SIMBOLO_LLAVES_ABRE, "{")
             return True
         elif caracterActual == "}":
-            self.agregarToken(TipoTokenCSS.SIMBOLO_LLAVE_CIERRA, "}")
+            self.agregarToken(TipoTokenCSS.SIMBOLO_LLAVES_CIERRA, "}")
             return True
         elif caracterActual == "(":
             self.agregarToken(TipoTokenCSS.SIMBOLO_PARENTESIS_ABRE, "(")
@@ -246,7 +255,7 @@ class AnalizadorLexicoCSS:
             self.agregarToken(TipoTokenCSS.SIMBOLO_PARENTESIS_CIERRA, ")")
             return True
         elif caracterActual == "*":
-            self.agregarToken(TipoTokenCSS.SIGNO_MULTIPLICACION, ")")
+            self.agregarToken(TipoTokenCSS.SIGNO_MULTIPLICACION, "*")
             return True
         elif caracterActual == "-":
             self.agregarToken(TipoTokenCSS.SIGNO_MENOS, "-")
@@ -261,7 +270,7 @@ class AnalizadorLexicoCSS:
     def evaluarReservadas(self):
         if self.lexemaTemp.lower() == "color":
             self.agregarToken(TipoTokenCSS.RESERVADA, "color")
-
+            return True
         elif self.lexemaTemp.lower() == "background-color":
             self.agregarToken(TipoTokenCSS.RESERVADA, "background-color")
             return True
@@ -414,13 +423,62 @@ class AnalizadorLexicoCSS:
             self.agregarToken(TipoTokenCSS.RESERVADA, "min-height")
             return True
 
+        elif self.lexemaTemp.lower() == "px":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "px")
+            return True
+
+        elif self.lexemaTemp.lower() == "em":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "em")
+            return True
+
+        elif self.lexemaTemp.lower() == "vh":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "vh")
+            return True
+
+        elif self.lexemaTemp.lower() == "vw":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "vw")
+            return True
+
+        elif self.lexemaTemp.lower() == "in":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "in")
+            return True
+
+        elif self.lexemaTemp.lower() == "cm":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "cm")
+            return True
+
+        elif self.lexemaTemp.lower() == "mm":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "mm")
+            return True
+
+        elif self.lexemaTemp.lower() == "pt":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "pt")
+            return True
+
+        elif self.lexemaTemp.lower() == "pc":
+            self.agregarToken(TipoTokenCSS.MEDIDA, "pc")
+            return True
+
     def obtenerLongitud(self):
         contador = 0
         for i in range(self.posicion, len(self.entradaTexto) - 1):
             if self.entradaTexto[i] == " " or self.entradaTexto[i] == "\t" or self.entradaTexto[i] == "\n" \
                     or self.entradaTexto[i] == "\r" or self.entradaTexto[i] == "{" or self.entradaTexto[i] == "}" \
                     or self.entradaTexto[i] == "(" or self.entradaTexto[i] == ")" or self.entradaTexto[i] == ";" \
-                    or self.entradaTexto[i] == "," or self.entradaTexto[i] == ":":
+                    or self.entradaTexto[i] == "," or self.entradaTexto[i] == ":" or self.entradaTexto[i] == "." \
+                    or self.entradaTexto[i] == "*" or self.entradaTexto[i] == "%":
+                break
+            contador += 1
+        return contador
+
+    def obtenerLongitudNumero(self):
+        contador = 0
+        for i in range(self.posicion, len(self.entradaTexto) - 1):
+            if self.entradaTexto[i] == " " or self.entradaTexto[i] == "\t" or self.entradaTexto[i] == "\n" \
+                    or self.entradaTexto[i] == "\r" or self.entradaTexto[i] == "{" or self.entradaTexto[i] == "}" \
+                    or self.entradaTexto[i] == "(" or self.entradaTexto[i] == ")" or self.entradaTexto[i] == ";" \
+                    or self.entradaTexto[i] == "," or self.entradaTexto[i] == ":" or self.entradaTexto[i] == "." or \
+                    self.entradaTexto[i].isalpha() or self.entradaTexto[i] == "%":
                 break
             contador += 1
         return contador

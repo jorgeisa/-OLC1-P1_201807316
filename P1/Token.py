@@ -80,6 +80,7 @@ class TipoToken(Enum):
 class TipoTokenCSS(Enum):
     # Reservadas
     RESERVADA = 1
+    MEDIDA = 2
 
     # Simbolos
     SIMBOLO_DOS_PUNTOS = 100
