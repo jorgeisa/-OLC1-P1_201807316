@@ -189,7 +189,7 @@ class PantallaPrincipal:
             self.evaluarCSS(i)
 
     def evaluarCSS(self, token):
-        if token.tipoToken.value == 1:
+        if token.tipoToken.value == 1 or token.tipoToken.value == 2:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorReservada')
         elif token.tipoToken.value == 301:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorVariable')

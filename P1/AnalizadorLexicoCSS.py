@@ -85,6 +85,7 @@ class AnalizadorLexicoCSS:
     def estadoE1(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
+        self.contadorH += 1
         caracter = self.entradaTexto[self.posicion]
 
         if caracter == "*":
@@ -96,6 +97,9 @@ class AnalizadorLexicoCSS:
             self.posicion += 1
             self.contadorH += 1
             self.estadoE2()
+        else:
+            self.agregarError(self.lexemaTemp, self.contadorH-1, self.contadorV)
+            self.lexemaTemp = ""
 
     def estadoE2(self):
         while self.posicion < (len(self.entradaTexto)-1):
@@ -114,6 +118,7 @@ class AnalizadorLexicoCSS:
             else:
                 self.lexemaTemp += caracter
                 if caracter == "\n":
+                    self.contadorH = 1
                     self.contadorV += 1
 
             if caracter == "C" and self.contadorComentario == 2:
@@ -134,7 +139,6 @@ class AnalizadorLexicoCSS:
     # -------------------- ID , #ID  ------------------------------------------
     def estadoE7(self):
         final = self.obtenerLongitud() + self.posicion
-        print(final)
         for i in range(self.posicion, final):
             self.lexemaTemp += self.entradaTexto[i]
         # E0 -> E7
@@ -151,7 +155,7 @@ class AnalizadorLexicoCSS:
         caracterActual = self.entradaTexto[self.posicion]
 
         if caracterActual == "#":
-            if self.entradaTexto[self.posicion + 1].isalpha():
+            if self.entradaTexto[self.posicion + 1].isalpha() or self.entradaTexto[self.posicion + 1].isnumeric():
                 self.lexemaTemp += caracterActual
                 self.posicion += 1
                 self.contadorH += 1
