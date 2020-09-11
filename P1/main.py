@@ -1,6 +1,7 @@
 from PantallaPrincipal import PantallaPrincipal
 import os
 
+
 def crearArchivo():
     # os.linesep para separar una linea de otra
     file = open("C:/Users/Isaac/Desktop/nombrexd.txt", "w")

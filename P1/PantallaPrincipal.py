@@ -5,6 +5,7 @@ from tkinter import filedialog  # filechooser
 from tkinter import scrolledtext  # textarea
 from tkinter import messagebox  # message box
 from AnalizadorLexicoJS import AnalizadorLexicoJS
+from AnalizadorLexicoCSS import AnalizadorLexicoCSS
 from Token import TipoToken
 
 
@@ -118,12 +119,20 @@ class PantallaPrincipal:
 
                 # Imprimir en interfaz la lista de Tokens y de Errores
                 self.imprimirListasEnConsola(miScanner)
-                messagebox.showinfo('Project 1', 'Analisis Finalizado!')
+                messagebox.showinfo('Project 1', 'Analisis Finalizado JS!')
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
                 self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
                 self.colorearJS(miScanner)
 
             elif extension == ".css":
+                miScanner = AnalizadorLexicoCSS()
+                listaTokens = miScanner.ScannerCSS(entrada)
+
+                self.imprimirListasEnConsola(miScanner)
+                messagebox.showinfo('Project 1', 'Analisis Finalizado CSS!')
+                print(f"Este es la direccion de salida: {miScanner.pathSalida}")
+                self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
+
                 print(".css")
             elif extension == ".html":
                 print(".html")
@@ -132,7 +141,7 @@ class PantallaPrincipal:
             self.txtConsola.insert("1.0", "Abra un archivo de entrada!")
             # 111@11^11&11~
 
-# ------------------------------- COLORES ANALIZAR JS ----------------------------------------------------------------
+    # ------------------------------- COLORES ANALIZAR JS ----------------------------------------------------------------
     def colorearJS(self, miScannerJS):
         # imprimir Tokens en consola
         self.txtEntrada.delete("1.0", END)
@@ -153,22 +162,21 @@ class PantallaPrincipal:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorVariable')
         elif token.tipoToken.value == 304 or token.tipoToken.value == 305:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorCadenas')
-        elif token.tipoToken.value == 301 or token.tipoToken.value == 100 or token.tipoToken.value == 101\
-                or token.tipoToken.value == 102 or token.tipoToken.value == 110 or token.tipoToken.value == 112\
-                or token.tipoToken.value == 113 or token.tipoToken.value == 114 or token.tipoToken.value == 115\
+        elif token.tipoToken.value == 301 or token.tipoToken.value == 100 or token.tipoToken.value == 101 \
+                or token.tipoToken.value == 102 or token.tipoToken.value == 110 or token.tipoToken.value == 112 \
+                or token.tipoToken.value == 113 or token.tipoToken.value == 114 or token.tipoToken.value == 115 \
                 or token.tipoToken.value == 118 or token.tipoToken.value == 121 or token.tipoToken.value == 122:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorNumBool')
         elif token.tipoToken.value == 302 or token.tipoToken.value == 303:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorComentario')
-        elif token.tipoToken.value == 116 or token.tipoToken.value == 117 or token.tipoToken.value == 120\
-                or token.tipoToken.value == 200 or token.tipoToken.value == 201 or token.tipoToken.value == 202\
+        elif token.tipoToken.value == 116 or token.tipoToken.value == 117 or token.tipoToken.value == 120 \
+                or token.tipoToken.value == 200 or token.tipoToken.value == 201 or token.tipoToken.value == 202 \
                 or token.tipoToken.value == 203:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOperadores')
         elif token.tipoToken.value == 351:
             self.txtEntrada.insert(END, f"{token.lexemaValor}")
         elif token.tipoToken.value != 351:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOtros')
-
 
     # Dispara el Filechooser
     def abrirArchivo(self):
@@ -188,24 +196,26 @@ class PantallaPrincipal:
         file.write(f"{textoCorregido}")
         file.close()
 
-# LAS LISTAS DE TODOS LOS ANALIZADORES SE LLAMAN IGUAL, ASI SOLO LLAMO A ESTA FUNCION
+    # LAS LISTAS DE TODOS LOS ANALIZADORES SE LLAMAN IGUAL, ASI SOLO LLAMO A ESTA FUNCION
     def imprimirListasEnConsola(self, miScannerP):
         # Contadores de Listas
-        contadorT = (len(miScannerP.lista_Tokens) + 1)
-        contadorE = (len(miScannerP.lista_ErroresLexicos) + 1)
-
-        # imprimir Tokens en consola
-        for i in reversed(miScannerP.lista_Tokens):
-            if i.tipoToken.name != "NINGUNO":
-                contadorT -= 1
-                self.txtConsola.insert("1.0", f"{contadorT}. TOKEN: {i.tipoToken.name} ,"
-                                              f" VALOR: {i.lexemaValor}\n")
-
-        self.txtConsola.insert("1.0", "\n-------------------------------------------------------------\n\n")
+        contadorT = 0
+        contadorE = 0
 
         # imprimir Errores en la consola
-        for i in reversed(miScannerP.lista_ErroresLexicos):
-            contadorE -= 1
-            self.txtConsola.insert("1.0", f"{contadorE}. ERROR LEXICO: {i.valor}, "
-                                          f"POSICION (H,V): {i.posicion.getPosicionH()} ,"
-                                          f"{i.posicion.getPosicionV()}\n")
+        for i in miScannerP.lista_ErroresLexicos:
+            contadorE += 1
+            self.txtConsola.insert(END, f"{contadorE}. ERROR LEXICO: {i.valor}, "
+                                        f"POSICION (H,V): {i.posicion.getPosicionH()} ,"
+                                        f"{i.posicion.getPosicionV()}\n")
+
+        self.txtConsola.insert(END, "\n-------------------------------------------------------------\n\n")
+
+        # imprimir Tokens en consola
+        for i in miScannerP.lista_Tokens:
+            if i.tipoToken.name != "NINGUNO":
+                contadorT += 1
+                self.txtConsola.insert(END, f"{contadorT}. TOKEN: {i.tipoToken.name} ,"
+                                            f" VALOR: {i.lexemaValor}\n")
+
+

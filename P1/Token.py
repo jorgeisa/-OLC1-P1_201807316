@@ -4,19 +4,19 @@ from Posicion import Posicion
 
 class TipoToken(Enum):
     # Palabras Reservadas
-    RESERVADA_RETURN = 1     #
-    RESERVADA_BREAK = 2      #
-    RESERVADA_CONTINUE = 3   #
-    RESERVADA_DO = 4         #
-    RESERVADA_WHILE = 5      #
-    RESERVADA_FOR = 6        #
-    RESERVADA_IF = 7         #
-    RESERVADA_VAR = 8        #
-    RESERVADA_ELSE = 9       #
-    RESERVADA_THIS = 10      #
-    RESERVADA_CLASS = 11     #
-    RESERVADA_CONSOLE = 12   #
-    RESERVADA_LOG = 13       #
+    RESERVADA_RETURN = 1  #
+    RESERVADA_BREAK = 2  #
+    RESERVADA_CONTINUE = 3  #
+    RESERVADA_DO = 4  #
+    RESERVADA_WHILE = 5  #
+    RESERVADA_FOR = 6  #
+    RESERVADA_IF = 7  #
+    RESERVADA_VAR = 8  #
+    RESERVADA_ELSE = 9  #
+    RESERVADA_THIS = 10  #
+    RESERVADA_CLASS = 11  #
+    RESERVADA_CONSOLE = 12  #
+    RESERVADA_LOG = 13  #
     RESERVADA_FALSE = 14
     RESERVADA_TRUE = 15
     RESERVADA_CONSTRUCTOR = 16
@@ -46,7 +46,7 @@ class TipoToken(Enum):
     RELACIONAL_MENOR_IGUAL = 115
 
     # +=, ++, ===, =>, *=
-    SIMBOLO_ASIGNACION_ADICION=116
+    SIMBOLO_ASIGNACION_ADICION = 116
     SIMBOLO_INCREMENTO = 117
     SIMBOLO_ESTRICTAMENTE_IGUALES = 118
     SIMBOLO_LAMBDA = 119
@@ -56,7 +56,6 @@ class TipoToken(Enum):
     # &&, ||
     LOGICO_CONJUNCION = 121
     LOGICO_DISYUNCION = 122
-
 
     # Signo
     # + , -, *, /
@@ -79,7 +78,35 @@ class TipoToken(Enum):
 
 
 class TipoTokenCSS(Enum):
-    ENUM = 0
+    # Reservadas
+    RESERVADA = 1
+
+    # Simbolos
+    SIMBOLO_DOS_PUNTOS = 100
+    SIMBOLO_DOBLE_DOS_PUNTOS = 101
+    SIMBOLO_PUNTO = 102
+    SIMBOLO_NUMERAL = 103
+    SIMBOLO_PUNTO_Y_COMA = 104
+    SIMBOLO_COMA = 105
+    SIMBOLO_PARENTESIS_ABRE = 106
+    SIMBOLO_PARENTESIS_CIERRA = 107
+    SIMBOLO_LLAVES_ABRE = 108
+    SIMBOLO_LLAVES_CIERRA = 109
+    SIMBOLO_PORCENTAJE = 110
+
+    # Signos
+    SIGNO_MULTIPLICACION = 200
+    SIGNO_MENOS = 201
+
+    # Expresiones Regulares
+    COMENTARIO_MULTILINEA = 300
+    ID = 301
+    CADENA_TEXTO = 302
+    NUMERO_ENTERO = 303
+    NINGUNO = 401
+
+    def describe(self):
+        return self.value
 
 
 class Token:

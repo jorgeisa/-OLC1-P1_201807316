@@ -7,6 +7,7 @@
       <change beforePath="$PROJECT_DIR$/AnalizadorLexicoJS.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorLexicoJS.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PantallaPrincipal.py" beforeDir="false" afterPath="$PROJECT_DIR$/PantallaPrincipal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Token.py" beforeDir="false" afterPath="$PROJECT_DIR$/Token.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,46 +161,46 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="140" y="0" key="CommitChangelistDialog2/0.0.1536.864@0.0.1536.864" timestamp="1599466816928" />
-    <state width="1515" height="254" key="GridCell.Tab.0.bottom" timestamp="1599695771684">
+    <state width="1515" height="242" key="GridCell.Tab.0.bottom" timestamp="1599783720906">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="254" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599695771684" />
-    <state width="1515" height="254" key="GridCell.Tab.0.center" timestamp="1599695771683">
+    <state width="1515" height="242" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599783720906" />
+    <state width="1515" height="242" key="GridCell.Tab.0.center" timestamp="1599783720906">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="254" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1599695771683" />
-    <state width="1515" height="254" key="GridCell.Tab.0.left" timestamp="1599695771683">
+    <state width="1515" height="242" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1599783720906" />
+    <state width="1515" height="242" key="GridCell.Tab.0.left" timestamp="1599783720905">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="254" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1599695771683" />
-    <state width="1515" height="254" key="GridCell.Tab.0.right" timestamp="1599695771684">
+    <state width="1515" height="242" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1599783720905" />
+    <state width="1515" height="242" key="GridCell.Tab.0.right" timestamp="1599783720906">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="254" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1599695771684" />
-    <state width="1515" height="242" key="GridCell.Tab.1.bottom" timestamp="1599437113040">
+    <state width="1515" height="242" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1599783720906" />
+    <state width="1515" height="242" key="GridCell.Tab.1.bottom" timestamp="1599783743783">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="242" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599437113040" />
-    <state width="1515" height="242" key="GridCell.Tab.1.center" timestamp="1599437113040">
+    <state width="1515" height="242" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1599783743783" />
+    <state width="1515" height="242" key="GridCell.Tab.1.center" timestamp="1599783743783">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="242" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1599437113040" />
-    <state width="1515" height="242" key="GridCell.Tab.1.left" timestamp="1599437113040">
+    <state width="1515" height="242" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1599783743783" />
+    <state width="1515" height="242" key="GridCell.Tab.1.left" timestamp="1599783743783">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="242" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1599437113040" />
-    <state width="1515" height="242" key="GridCell.Tab.1.right" timestamp="1599437113040">
+    <state width="1515" height="242" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1599783743783" />
+    <state width="1515" height="242" key="GridCell.Tab.1.right" timestamp="1599783743783">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="242" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1599437113040" />
+    <state width="1515" height="242" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1599783743783" />
     <state x="555" y="77" key="SettingsEditor" timestamp="1599374240786">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="555" y="77" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1599374240786" />
-    <state x="465" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1599664929551">
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1599774978821">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1599664929551" />
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1599774978821" />
     <state x="195" y="352" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599460480808">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -208,13 +209,24 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="9" y="402" width="630" height="639" key="dock-window-1/0.0.1536.864@0.0.1536.864" timestamp="1599686749566" />
-    <state x="758" y="0" width="781" height="866" key="dock-window-2" timestamp="1599608912064">
+    <state x="-6" y="0" width="781" height="870" key="dock-window-2" timestamp="1599783615159">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="758" y="0" width="781" height="866" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1599608912064" />
+    <state x="-6" y="0" width="781" height="870" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1599783615159" />
     <state x="0" y="0" width="636" height="591" key="dock-window-3" timestamp="1599470918597">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="0" y="0" width="636" height="591" key="dock-window-3/0.0.1536.864@0.0.1536.864" timestamp="1599470918597" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/AnalizadorLexicoCSS.py</url>
+          <line>100</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

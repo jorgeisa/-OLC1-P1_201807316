@@ -100,7 +100,7 @@ class AnalizadorLexicoJS:
                     # self.imprimirTokens()
                     # print("----------------------")
                     # self.imprimirErrores()
-                    print("analisis finalizado")
+                    print("analisis JS finalizado")
                     print(f"Posicion: {self.contadorH}, {self.contadorV}")
                 else:
                     print(f"Error Lexico. {caracterActual}")
@@ -121,7 +121,8 @@ class AnalizadorLexicoJS:
             if caracter.isnumeric():
                 self.lexemaTemp += caracter
             else:
-                self.agregarError(caracter, self.contadorH-1, self.contadorV)
+                # self.contadorH-1
+                self.agregarError(caracter, self.contadorH, self.contadorV)
                 print(f"Error Lexico: {caracter}")
 
             if self.posicion + 1 == final:
@@ -143,8 +144,8 @@ class AnalizadorLexicoJS:
         self.estadoE2(final)
 
     def estadoE2(self, final):
-        self.lexemaTemp = ""
-        while self.posicion < final:  # id43id  0 - 6
+        self.lexemaTemp = ""          # 40,41,42,43,44,45,46,  47       ,48,49,50
+        while self.posicion < final:  # id4@3id  0 - 6
             caracter = self.entradaTexto[self.posicion]
 
             if caracter.isalpha():
@@ -154,7 +155,8 @@ class AnalizadorLexicoJS:
             elif caracter == "_":
                 self.lexemaTemp += caracter
             else:
-                self.agregarError(caracter, self.contadorH-1, self.contadorV)
+                # self.contadorH-1
+                self.agregarError(caracter, self.contadorH, self.contadorV)
                 print(f"Error Lexico. {caracter}")
             if (self.posicion + 1) == final:
                 if not self.evaluarReservadas():
