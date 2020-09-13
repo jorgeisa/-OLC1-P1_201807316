@@ -124,8 +124,10 @@ class TipoTokenHTML(Enum):
     VALOR_INTERMEDIO = 401
     COMENTARIO = 402
     CADENA = 403
-    INICIO_COMENTARIO = 404  # <!--
-    FIN_COMENTARIO = 405  # -->
+    INICIO_COMENTARIO = 405  # <!--
+    FIN_COMENTARIO = 406  # -->
+
+    DESCONOCIDO = 500
 
 
 class Token:

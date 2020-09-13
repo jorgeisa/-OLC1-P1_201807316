@@ -57,9 +57,19 @@ class AnalizadorHTML:
                 self.estadoE4()
 
             # E0 -> E13
-            elif self.entradaTexto[self.posicion-1] == ">":
+            elif self.entradaTexto[self.posicion] == ">":
                 self.estadoE13()
 
+            elif caracterActual == " " or caracterActual == "\t" or caracterActual == "\n":
+                if caracterActual == "\n":
+                    self.contadorV += 1
+                    self.contadorH = 1
+                else:
+                    self.contadorH += 1
+                self.textoCorregido += caracterActual
+                self.agregarToken(TipoTokenHTML.VALOR_INTERMEDIO, caracterActual)
+                self.posicion += 1
+                continue
             else:
                 if (caracterActual == '#') and (self.posicion == (len(self.entradaTexto) - 1)):
                     print("Analisis HTML terminado!!")
@@ -110,11 +120,14 @@ class AnalizadorHTML:
         caracterActual = self.entradaTexto[self.posicion]
 
         # E6 -> E7
-        if caracterActual == "!" and self.entradaTexto[self.posicion + 1] == "-" and self.entradaTexto[
-            self.posicion + 2] == "-":
+        if caracterActual == "!" and self.entradaTexto[self.posicion + 1] == "-" \
+                and self.entradaTexto[self.posicion + 2] == "-":
+            if self.contadorComentario != 3:
+                self.contadorComentario += 1
             # implica comentario
             self.lexemaTemp += f"{caracterActual}{self.entradaTexto[self.posicion + 1]}{self.entradaTexto[self.posicion + 2]}"
             self.posicion += 3
+            self.contadorH += 3
             self.estadoE9()
 
         # Estado E0 - > E6
@@ -130,12 +143,13 @@ class AnalizadorHTML:
                 self.agregarToken(TipoTokenHTML.COMENTARIO, self.lexemaTemp)
 
             # E9 -> E10 -> E11 -> E12
-            elif caracter == "-" and self.entradaTexto[self.posicion + 1] == "-" and self.entradaTexto[
-                self.posicion + 2] == ">":
-                self.lexemaTemp += f"{caracter}{self.entradaTexto[self.posicion + 1]}{self.entradaTexto[self.posicion + 2]}"
+            elif caracter == "-" and self.entradaTexto[self.posicion + 1] == "-" and \
+                    self.entradaTexto[self.posicion + 2] == ">":
+                self.lexemaTemp += f"{caracter}"\
+                                   f"{self.entradaTexto[self.posicion + 1]}{self.entradaTexto[self.posicion + 2]}"
                 self.agregarToken(TipoTokenHTML.COMENTARIO, self.lexemaTemp)
-                self.posicion += 2
-                self.contadorH += 2
+                self.posicion += 3
+                self.contadorH += 3
                 return
             else:
                 self.lexemaTemp += caracter
@@ -143,8 +157,8 @@ class AnalizadorHTML:
             if caracter == "C" and self.contadorComentario == 2:
                 self.contadorComentario += 1
                 contadorPath = self.posicion
-                while self.entradaTexto[contadorPath] != "-" and self.entradaTexto[contadorPath + 1] != "-" \
-                        and self.entradaTexto[contadorPath + 2] == ">":
+                while self.entradaTexto[contadorPath] != "-" or self.entradaTexto[contadorPath + 1] != "-" \
+                        or self.entradaTexto[contadorPath + 2] != ">":
                     self.pathSalida += self.entradaTexto[contadorPath]
                     contadorPath += 1
             self.posicion += 1
@@ -169,6 +183,10 @@ class AnalizadorHTML:
         self.agregarToken(TipoTokenHTML.CADENA, self.lexemaTemp)
 
     def estadoE13(self):
+        self.lexemaTemp += self.entradaTexto[self.posicion]
+        self.agregarToken(TipoTokenHTML.SIMBOLO_FINAL_ETIQUETA, self.lexemaTemp)
+        self.posicion += 1
+        self.contadorH += 1
         final = self.obtenerLongitudAIgnorar() + self.posicion
         self.posicion = final
 
@@ -252,6 +270,7 @@ class AnalizadorHTML:
         contador = 0
         for i in range(self.posicion, len(self.entradaTexto) - 1):
             if self.entradaTexto[i] == "<":
+                self.contadorH -= 1
                 # E13 -> E14
                 break
             if self.entradaTexto[i] == "\n":

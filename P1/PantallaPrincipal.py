@@ -6,14 +6,22 @@ from tkinter import scrolledtext  # textarea
 from tkinter import messagebox  # message box
 from AnalizadorLexicoJS import AnalizadorLexicoJS
 from AnalizadorLexicoCSS import AnalizadorLexicoCSS
+from AnalizadorHTML import AnalizadorHTML
 from Token import TipoToken
 from Token import TipoTokenCSS
+from Token import TipoTokenHTML
 
 
 class PantallaPrincipal:
     nameArchivoEntrada = ""
 
     # Metodo que contiene la definicion de la interfaz grafica
+    def getInfo(self, event):
+        string = self.txtEntrada.index(INSERT)
+        print(string)
+        self.lblPosition.destroy()
+        self.lblPosition = Label(self.window, text=f"Posicion (V, H): {string}")
+        self.lblPosition.place(x=200, y=465)
 
     def __init__(self):
         self.window = Tk()
@@ -89,10 +97,20 @@ class PantallaPrincipal:
         self.txtConsola.place(x=50, y=490)
         self.btn = Button(self.window, text="Analyze JS", bg="black", fg="white",
                           command=self.Analisis)  # boton ANALYZE
+
+        self.lblPosition = Label(self.window, text=f"Posicion (V, H): --")
+        self.lblPosition.place(x=200, y=465)
+
         self.btn.place(x=655, y=460)
         self.btn = Button(self.window, text="Analyze CSS", bg="black", fg="white", command="")  # boton ANALYZE
         self.btn.place(x=755, y=460)
-        self.btn = Button(self.window, text="Analyze HTML", bg="black", fg="white", command="")  # boton ANALYZE
+        self.btn = Button(self.window, text="Analyze HTML", bg="black", fg="white",
+                          command=self.getInfo)  # boton ANALYZE
+
+        self.txtEntrada.bind("<Button-1>", self.getInfo)
+        self.txtEntrada.bind("<Button-2>", self.getInfo)
+        self.txtEntrada.bind("<Button-3>", self.getInfo)
+
         self.btn.place(x=855, y=460)
 
         # Dispara la interfaz y la mantiene abierta
@@ -139,6 +157,16 @@ class PantallaPrincipal:
                 self.colorearCSS(miScanner)
                 print(".css")
             elif extension == ".html":
+                miScanner = AnalizadorHTML()
+                listaTokens = miScanner.ScannerHTML(entrada)
+
+                self.txtConsola.delete("1.0", END)
+
+                self.imprimirListasEnConsola(miScanner)
+                messagebox.showinfo('Project 1', 'Analisis Finalizado CSS!')
+                print(f"Este es la direccion de salida: {miScanner.pathSalida}")
+                self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
+                self.colorearHTML(miScanner)
                 print(".html")
         else:
             self.txtConsola.delete("1.0", END)
@@ -204,6 +232,30 @@ class PantallaPrincipal:
         elif token.tipoToken.value == 401:
             self.txtEntrada.insert(END, f"{token.lexemaValor}")
         elif token.tipoToken.value != 401:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOtros')
+
+    # --------------------------- Colorear HTML  -------------------------------
+    def colorearHTML(self, miScannerHTML):
+        self.txtEntrada.delete("1.0", END)
+        for i in miScannerHTML.lista_Tokens:
+            self.evaluarHTML(i)
+
+    def evaluarHTML(self, token):
+        if token.tipoToken.value == 100:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorReservada')
+        elif token.tipoToken.value == 400:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorVariable')
+        elif token.tipoToken.value == 403:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorCadenas')
+        elif token.tipoToken.value == 3:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorNumBool')
+        elif token.tipoToken.value == 402:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorComentario')
+        elif token.tipoToken.value == 1 or token.tipoToken.value == 2:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOperadores')
+        elif token.tipoToken.value == 401 or token.tipoToken.value == 500:
+            self.txtEntrada.insert(END, f"{token.lexemaValor}")
+        elif token.tipoToken.value != 500 or token.tipoToken.value == 401:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOtros')
 
     # Dispara el Filechooser

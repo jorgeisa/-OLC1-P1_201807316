@@ -404,7 +404,6 @@ class AnalizadorLexicoJS:
             self.posicion += 1
         self.agregarToken(TipoToken.CADENA_DOBLES, self.lexemaTemp)
 
-
     def estadoE22(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
