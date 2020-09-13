@@ -103,7 +103,7 @@ class AnalizadorLexicoCSS:
             self.contadorH += 1
             self.estadoE2()
         else:
-            self.bitacoraCSS += "ERROR: E1 C: /\n"
+            self.bitacoraCSS += "\nERROR: E1 C: /\n"
             self.agregarError(self.lexemaTemp, self.contadorH-1, self.contadorV)
             self.lexemaTemp = ""
 
@@ -121,7 +121,7 @@ class AnalizadorLexicoCSS:
                     self.bitacoraCSS += f"[I: E3]->[F: E4] C: {self.entradaTexto[self.posicion+1]}\n"
                     self.posicion += 2
                     self.contadorH += 2
-                    self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.COMENTARIO_MULTILINEA.name}\n"
+                    self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.COMENTARIO_MULTILINEA.name}\n\n"
                     self.agregarToken(TipoTokenCSS.COMENTARIO_MULTILINEA, self.lexemaTemp)
                     return
                 # E3 -> E2
@@ -144,7 +144,7 @@ class AnalizadorLexicoCSS:
             self.contadorH += 1
         self.posicion -= 1
         self.contadorH -= 1
-        self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.COMENTARIO_MULTILINEA.name}\n"
+        self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.COMENTARIO_MULTILINEA.name}\n\n"
         self.agregarToken(TipoTokenCSS.COMENTARIO_MULTILINEA, self.lexemaTemp)
         print("No se detecto */")
         self.lexemaTemp = ""
@@ -204,7 +204,7 @@ class AnalizadorLexicoCSS:
             if (self.posicion + 1) == final:
                 if not self.evaluarReservadas():
                     self.agregarToken(TipoTokenCSS.ID, self.lexemaTemp)
-                    self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.ID.name}\n"
+                    self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.ID.name}\n\n"
             if (self.posicion + 1) != final:
                 self.bitacoraCSS += f"[I: E5]->[F: E5] C: {self.entradaTexto[self.posicion + 1]}\n"
             self.posicion += 1
@@ -214,6 +214,7 @@ class AnalizadorLexicoCSS:
     # E0 -> E9
     def estadoE9(self):
         final = self.obtenerLongitudNumero() + self.posicion
+        self.bitacoraCSS += f"[I: E0]->[F: E9] C: {self.entradaTexto[self.posicion]}\n"
         while self.posicion < final:
             # E9 -> E9
             caracter = self.entradaTexto[self.posicion]
@@ -221,14 +222,16 @@ class AnalizadorLexicoCSS:
                 self.lexemaTemp += caracter
             else:
                 self.agregarError(caracter, self.contadorH, self.contadorV)
-                self.bitacoraCSS += f"[ERROR E9] C: {caracter}\n"
+                self.bitacoraCSS += f"\n[ERROR E9] C: {caracter}\n\n"
                 print(f"Error Lexico: {caracter}")
 
             if self.posicion + 1 == final:
                 self.agregarToken(TipoTokenCSS.NUMERO_ENTERO, self.lexemaTemp)
-                self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.NUMERO_ENTERO.name}\n"
+                self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.NUMERO_ENTERO.name}\n\n"
 
-            self.bitacoraCSS += f"[I: E0]->[F: E9] C: {caracter}\n"
+            if self.posicion + 1 != final:
+                self.bitacoraCSS += f"[I: E9]->[F: E9] C: {caracter}\n"
+
             self.posicion += 1
             self.contadorH += 1
         self.posicion = final
@@ -245,11 +248,11 @@ class AnalizadorLexicoCSS:
         # E12 -> E15 (::)
         if caracter == ":":
             self.bitacoraCSS += "[I: E12]->[F: E15] C: ::\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_DOBLE_DOS_PUNTOS.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_DOBLE_DOS_PUNTOS.name}\n\n"
             self.lexemaTemp += caracter
             self.agregarToken(TipoTokenCSS.SIMBOLO_DOBLE_DOS_PUNTOS, self.lexemaTemp)
         else:
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_DOS_PUNTOS.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_DOS_PUNTOS.name}\n\n"
             self.agregarToken(TipoTokenCSS.SIMBOLO_DOS_PUNTOS, self.lexemaTemp)
             self.posicion -= 1
             self.contadorH -= 1
@@ -270,7 +273,7 @@ class AnalizadorLexicoCSS:
             if caracterActual == "\"":
                 # E13 -> E16
                 self.bitacoraCSS += "[I: E13]->[F: E:16] C: \" \n"
-                self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.CADENA_TEXTO.name}\n"
+                self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.CADENA_TEXTO.name}\n\n"
                 self.agregarToken(TipoTokenCSS.CADENA_TEXTO, self.lexemaTemp)
                 self.posicion += 1
                 self.contadorH += 1
@@ -279,7 +282,7 @@ class AnalizadorLexicoCSS:
             self.contadorH += 1
             self.posicion += 1
         # E13 -> E16
-        self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.CADENA_TEXTO.name}\n"
+        self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.CADENA_TEXTO.name}\n\n"
         self.agregarToken(TipoTokenCSS.CADENA_TEXTO, self.lexemaTemp)
 
     # ------------------------------------  EVALUAR SIMBOLOS  ------------------------------------
@@ -289,340 +292,340 @@ class AnalizadorLexicoCSS:
         if caracterActual == ",":
             self.agregarToken(TipoTokenCSS.SIMBOLO_COMA, ",")
             self.bitacoraCSS += f"[I: E0] -> [F: E14] C: ,\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_COMA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_COMA.name}\n\n"
             return True
         elif caracterActual == ";":
             self.agregarToken(TipoTokenCSS.SIMBOLO_PUNTO_Y_COMA, ";")
             self.bitacoraCSS += f"[I: E0]->[F: E14] C: ;\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PUNTO_Y_COMA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PUNTO_Y_COMA.name}\n\n"
             return True
         elif caracterActual == "{":
             self.agregarToken(TipoTokenCSS.SIMBOLO_LLAVES_ABRE, "{")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: {\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_LLAVES_ABRE.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_LLAVES_ABRE.name}\n\n"
             return True
         elif caracterActual == "}":
             self.agregarToken(TipoTokenCSS.SIMBOLO_LLAVES_CIERRA, "}")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: }\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_LLAVES_CIERRA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_LLAVES_CIERRA.name}\n\n"
             return True
         elif caracterActual == "(":
             self.agregarToken(TipoTokenCSS.SIMBOLO_PARENTESIS_ABRE, "(")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: (\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PARENTESIS_ABRE.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PARENTESIS_ABRE.name}\n\n"
             return True
         elif caracterActual == ")":
             self.agregarToken(TipoTokenCSS.SIMBOLO_PARENTESIS_CIERRA, ")")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: (\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PARENTESIS_CIERRA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PARENTESIS_CIERRA.name}\n\n"
             return True
         elif caracterActual == "*":
             self.agregarToken(TipoTokenCSS.SIGNO_MULTIPLICACION, "*")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: *\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIGNO_MULTIPLICACION.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIGNO_MULTIPLICACION.name}\n\n"
             return True
         elif caracterActual == "-":
             self.agregarToken(TipoTokenCSS.SIGNO_MENOS, "-")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: -\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIGNO_MENOS.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIGNO_MENOS.name}\n\n"
             return True
         elif caracterActual == "%":
             self.agregarToken(TipoTokenCSS.SIMBOLO_PORCENTAJE, "%")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: %\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PORCENTAJE.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PORCENTAJE.name}\n\n"
             return True
         elif caracterActual == ".":
             self.agregarToken(TipoTokenCSS.SIMBOLO_PUNTO, ".")
             self.bitacoraCSS += "[I: E0]->[F: E14] C: .\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PUNTO.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.SIMBOLO_PUNTO.name}\n\n"
             return True
 
     def evaluarReservadas(self):
         if self.lexemaTemp.lower() == "color":
             self.agregarToken(TipoTokenCSS.RESERVADA, "color")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: color\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
         elif self.lexemaTemp.lower() == "background-color":
             self.agregarToken(TipoTokenCSS.RESERVADA, "background-color")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: background-color\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "background-image":
             self.agregarToken(TipoTokenCSS.RESERVADA, "background-image")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: background-image\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "border":
             self.agregarToken(TipoTokenCSS.RESERVADA, "border")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: border\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "opacity":
             self.agregarToken(TipoTokenCSS.RESERVADA, "Opacity")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: Opacity\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "background":
             self.agregarToken(TipoTokenCSS.RESERVADA, "background")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: background\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "text-align":
             self.agregarToken(TipoTokenCSS.RESERVADA, "text-align")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: text-align\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "font-family":
             self.agregarToken(TipoTokenCSS.RESERVADA, "font-family")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: font-family\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "font-style":
             self.agregarToken(TipoTokenCSS.RESERVADA, "font-style")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: font-style\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "font-weight":
             self.agregarToken(TipoTokenCSS.RESERVADA, "font-weight")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: font-weight\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "font-size":
             self.bitacoraCSS += "[I: E0]->[F: E7] C: font-size\n"
             self.agregarToken(TipoTokenCSS.RESERVADA, "font-size")
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "font":
             self.agregarToken(TipoTokenCSS.RESERVADA, "font")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: font\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "padding-left":
             self.agregarToken(TipoTokenCSS.RESERVADA, "padding-left")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: padding-left\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "padding-right":
             self.agregarToken(TipoTokenCSS.RESERVADA, "padding-right")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: padding-right\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "padding-bottom":
             self.agregarToken(TipoTokenCSS.RESERVADA, "padding-bottom")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: padding-bottom\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "padding-top":
             self.bitacoraCSS += "[I: E0]->[F: E7] C: padding-top\n"
             self.agregarToken(TipoTokenCSS.RESERVADA, "padding-top")
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "padding":
             self.agregarToken(TipoTokenCSS.RESERVADA, "padding")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: padding\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "display":
             self.agregarToken(TipoTokenCSS.RESERVADA, "display")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: display\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "line-height":
             self.agregarToken(TipoTokenCSS.RESERVADA, "line-height")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: line-height\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "width":
             self.agregarToken(TipoTokenCSS.RESERVADA, "width")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: width\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "height":
             self.agregarToken(TipoTokenCSS.RESERVADA, "height")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: height\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "margin-top":
             self.agregarToken(TipoTokenCSS.RESERVADA, "margin-top")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: margin-top\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "margin-right":
             self.agregarToken(TipoTokenCSS.RESERVADA, "margin-right")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: margin-right\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "margin-bottom":
             self.agregarToken(TipoTokenCSS.RESERVADA, "margin-bottom")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: margin-bottom\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "margin-left":
             self.agregarToken(TipoTokenCSS.RESERVADA, "margin-left")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: margin-left\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "margin":
             self.agregarToken(TipoTokenCSS.RESERVADA, "margin")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: margin\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "border-style":
             self.agregarToken(TipoTokenCSS.RESERVADA, "border-style")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: border-style\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "display":
             self.agregarToken(TipoTokenCSS.RESERVADA, "display")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: display\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "position":
             self.agregarToken(TipoTokenCSS.RESERVADA, "position")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: position\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "bottom":
             self.agregarToken(TipoTokenCSS.RESERVADA, "bottom")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: bottom\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "top":
             self.agregarToken(TipoTokenCSS.RESERVADA, "top")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: top\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "right":
             self.agregarToken(TipoTokenCSS.RESERVADA, "right")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: right\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "left":
             self.agregarToken(TipoTokenCSS.RESERVADA, "left")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: left\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "float":
             self.agregarToken(TipoTokenCSS.RESERVADA, "float")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: float\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "clear":
             self.agregarToken(TipoTokenCSS.RESERVADA, "clear")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: clear\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "max-width":
             self.agregarToken(TipoTokenCSS.RESERVADA, "max-width")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: max-width\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "min-width":
             self.agregarToken(TipoTokenCSS.RESERVADA, "min-width")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: min-width\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "max-height":
             self.agregarToken(TipoTokenCSS.RESERVADA, "max-height")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: max-height\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "min-height":
             self.agregarToken(TipoTokenCSS.RESERVADA, "min-height")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: min-height\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "px":
             self.agregarToken(TipoTokenCSS.MEDIDA, "px")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: px\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "em":
             self.agregarToken(TipoTokenCSS.MEDIDA, "em")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: em\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "vh":
             self.agregarToken(TipoTokenCSS.MEDIDA, "vh")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: vh\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "vw":
             self.agregarToken(TipoTokenCSS.MEDIDA, "vw")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: vw\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "in":
             self.agregarToken(TipoTokenCSS.MEDIDA, "in")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: in\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "cm":
             self.agregarToken(TipoTokenCSS.MEDIDA, "cm")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: cm\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "mm":
             self.agregarToken(TipoTokenCSS.MEDIDA, "mm")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: mm\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "pt":
             self.agregarToken(TipoTokenCSS.MEDIDA, "pt")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: pt\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
         elif self.lexemaTemp.lower() == "pc":
             self.agregarToken(TipoTokenCSS.MEDIDA, "pc")
             self.bitacoraCSS += "[I: E0]->[F: E7] C: pc\n"
-            self.bitacoraCSS += f"[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n"
+            self.bitacoraCSS += f"\n[TOKEN RECONOCIDO] {TipoTokenCSS.RESERVADA.name}\n\n"
             return True
 
     def obtenerLongitud(self):
