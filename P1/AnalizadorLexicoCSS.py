@@ -36,12 +36,14 @@ class AnalizadorLexicoCSS:
 
             caracterActual = self.entradaTexto[self.posicion]
 
+            # E0 -> E14 (, , : , ;)
             if self.evaluarSimbolos():
                 self.posicion += 1
                 self.contadorH += 1
                 caracterActual = self.entradaTexto[self.posicion]
 
             # Caracteres Dobles
+            # E0 -> E12 (:)
             elif caracterActual == ":":
                 self.estadoE12()
 
@@ -51,7 +53,7 @@ class AnalizadorLexicoCSS:
             # Estado E0 -> E13
             elif caracterActual == "\"":
                 self.estadoE13()
-            # Estado E0 -> E8
+            # Estado E0 -> E7
             elif caracterActual == "#" and self.posicion != (len(self.entradaTexto) - 1):
                 self.estadoE7()
             # Estado E0 -> E7 -> E5
@@ -106,16 +108,18 @@ class AnalizadorLexicoCSS:
             caracter = self.entradaTexto[self.posicion]
 
             if caracter == "*":
-                # Estado E3
+                # Estado E2 -> E3
                 self.lexemaTemp += caracter
                 if self.entradaTexto[self.posicion + 1] == "/":
-                    # Estado E4
+                    # Estado E3 -> E4
                     self.lexemaTemp += self.entradaTexto[self.posicion + 1]
                     self.posicion += 2
                     self.contadorH += 2
                     self.agregarToken(TipoTokenCSS.COMENTARIO_MULTILINEA, self.lexemaTemp)
                     return
+                # E3 -> E2
             else:
+                # E2 -> E2
                 self.lexemaTemp += caracter
                 if caracter == "\n":
                     self.contadorH = 1
@@ -137,6 +141,7 @@ class AnalizadorLexicoCSS:
         self.lexemaTemp = ""
 
     # -------------------- ID , #ID  ------------------------------------------
+    # E0 -> E7
     def estadoE7(self):
         final = self.obtenerLongitud() + self.posicion
         for i in range(self.posicion, final):
@@ -149,12 +154,14 @@ class AnalizadorLexicoCSS:
 
         self.estadoE8(final)
 
+    # E0 -> E8   o  E7 -> E8
     def estadoE8(self, final):
         self.lexemaTemp = ""
 
         caracterActual = self.entradaTexto[self.posicion]
 
         if caracterActual == "#":
+            # E8
             if self.entradaTexto[self.posicion + 1].isalpha() or self.entradaTexto[self.posicion + 1].isnumeric():
                 self.lexemaTemp += caracterActual
                 self.posicion += 1
@@ -166,6 +173,7 @@ class AnalizadorLexicoCSS:
                 return
 
         while self.posicion < final:
+            # E5
             caracterActual = self.entradaTexto[self.posicion]
 
             if caracterActual.isalpha():
@@ -186,9 +194,11 @@ class AnalizadorLexicoCSS:
             self.contadorH += 1
 
     # ----------------------     NUMEROS   ----------------------
+    # E0 -> E9
     def estadoE9(self):
         final = self.obtenerLongitudNumero() + self.posicion
         while self.posicion < final:
+            # E9 -> E9
             caracter = self.entradaTexto[self.posicion]
             if caracter.isnumeric():
                 self.lexemaTemp += caracter
@@ -210,6 +220,7 @@ class AnalizadorLexicoCSS:
 
         caracter = self.entradaTexto[self.posicion]
 
+        # E12 -> E15 (::)
         if caracter == ":":
             self.lexemaTemp += caracter
             self.agregarToken(TipoTokenCSS.SIMBOLO_DOBLE_DOS_PUNTOS, self.lexemaTemp)
@@ -221,23 +232,28 @@ class AnalizadorLexicoCSS:
         self.contadorH += 1
 
     # ------------------  CADENAS  -------------------------------
+    # E0->E13
     def estadoE13(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
         self.contadorH += 1
         while self.entradaTexto[self.posicion] != "\n":
+            # E13 -> E13
             caracterActual = self.entradaTexto[self.posicion]
             self.lexemaTemp += caracterActual
             if caracterActual == "\"":
+                # E13 -> E16
                 self.agregarToken(TipoTokenCSS.CADENA_TEXTO, self.lexemaTemp)
                 self.posicion += 1
                 self.contadorH += 1
                 return
             self.contadorH += 1
             self.posicion += 1
+        # E13 -> E16
         self.agregarToken(TipoTokenCSS.CADENA_TEXTO, self.lexemaTemp)
 
     # ------------------------------------  EVALUAR SIMBOLOS  ------------------------------------
+    # E0 -> E14
     def evaluarSimbolos(self):
         caracterActual = self.entradaTexto[self.posicion]
         if caracterActual == ",":

@@ -117,6 +117,7 @@ class AnalizadorLexicoJS:
 
         #  final siempre sera una unidad mas grande de donde se debe parar
         while self.posicion < final:
+            # E1 0> E1
             caracter = self.entradaTexto[self.posicion]
             if caracter.isnumeric():
                 self.lexemaTemp += caracter
@@ -132,17 +133,21 @@ class AnalizadorLexicoJS:
         self.posicion = final
 
     # ----------------------     PALABRAS RESERVADAS   ----------------------
+    # E0 -> E6 ("/")
     def estadoE6(self):  # letra | ID | RESERVADAS
         final = self.obtenerLongitud() + self.posicion
         for i in range(self.posicion, final):
             self.lexemaTemp += self.entradaTexto[i]
 
+        # E0 -> E6
         if self.evaluarReservadas():
             self.contadorH += self.obtenerLongitud()
             return
 
+        # E0 -> E2
         self.estadoE2(final)
 
+    # E2 -> E2
     def estadoE2(self, final):
         self.lexemaTemp = ""  # 40,41,42,43,44,45,46,  47       ,48,49,50
         while self.posicion < final:  # id4@3id  0 - 6
@@ -165,6 +170,7 @@ class AnalizadorLexicoJS:
             self.contadorH += 1
 
     # ----------------------     COMENTARIOS     ----------------------
+    # E0 -> E8
     def estadoE8(self):  # comentarios
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
@@ -176,12 +182,14 @@ class AnalizadorLexicoJS:
             self.lexemaTemp += caracter
             self.posicion += 1
             self.contadorH += 1
+            # E8-> E9
             self.estadoE9()
             return
         elif caracter == "*":
             self.lexemaTemp += caracter
             self.posicion += 1
             self.contadorH += 1
+            # E8-> E10
             self.estadoE10()
             return
         else:
@@ -189,6 +197,7 @@ class AnalizadorLexicoJS:
             return
 
     # Comentario unilinea
+    # E9 -> E9
     def estadoE9(self):
         #  //COMENTARIO    C
         while self.posicion < len(self.entradaTexto):
@@ -210,17 +219,21 @@ class AnalizadorLexicoJS:
             self.posicion += 1
             self.contadorH += 1
 
+    # E10 -> E10
     def estadoE10(self):
         while self.posicion < (len(self.entradaTexto) - 1):
             caracter = self.entradaTexto[self.posicion]
             if caracter == "*":
+                # E11
                 self.lexemaTemp += caracter
                 if self.entradaTexto[self.posicion + 1] == "/":
+                    # E11-> E12
                     self.lexemaTemp += self.entradaTexto[self.posicion + 1]
                     self.posicion += 2
                     self.contadorH += 2
                     self.agregarToken(TipoToken.COMENTARIO_MULTILINEA, self.lexemaTemp)
                     return
+                # E11 -> E10
             else:
                 self.lexemaTemp += caracter
                 if caracter == "\n":
@@ -353,14 +366,17 @@ class AnalizadorLexicoJS:
             self.agregarError(self.lexemaTemp, self.contadorH, self.contadorV)
         self.lexemaTemp = ""
 
+    # E0 -> E20 (')
     def estadoE20(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
         self.contadorH += 1
         while self.entradaTexto[self.posicion] != "\n":
+            # E20 -> E20
             caracter = self.entradaTexto[self.posicion]
             self.lexemaTemp += caracter
             if caracter == "'":
+                # E20 -> E28
                 self.agregarToken(TipoToken.CADENA_SIMPLES, self.lexemaTemp)
                 self.posicion += 1
                 self.contadorH += 1
@@ -369,14 +385,17 @@ class AnalizadorLexicoJS:
             self.contadorH += 1
         self.agregarToken(TipoToken.CADENA_SIMPLES, self.lexemaTemp)
 
+    # E0 -> E21 (")
     def estadoE21(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
         self.posicion += 1
         self.contadorH += 1
         while self.entradaTexto[self.posicion] != "\n":
+            # E21 -> E21
             caracter = self.entradaTexto[self.posicion]
             self.lexemaTemp += caracter
             if caracter == "\"":
+                # E21 -> E30
                 self.agregarToken(TipoToken.CADENA_DOBLES, self.lexemaTemp)
                 self.posicion += 1
                 self.contadorH += 1
@@ -384,6 +403,7 @@ class AnalizadorLexicoJS:
             self.contadorH += 1
             self.posicion += 1
         self.agregarToken(TipoToken.CADENA_DOBLES, self.lexemaTemp)
+
 
     def estadoE22(self):
         self.lexemaTemp += self.entradaTexto[self.posicion]
@@ -495,3 +515,8 @@ class AnalizadorLexicoJS:
             contador += 1
             print(
                 f"{contador}. TOKEN: {self.lista_Tokens[i].tipoToken.name} , VALOR: {self.lista_Tokens[i].lexemaValor}")
+
+
+''''
+
+'''

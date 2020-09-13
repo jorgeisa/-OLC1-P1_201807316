@@ -110,6 +110,24 @@ class TipoTokenCSS(Enum):
         return self.value
 
 
+class TipoTokenHTML(Enum):
+
+    # Simbolos
+    SIMBOLO_INICIO_ETIQUETA = 1  # <
+    SIMBOLO_FINAL_ETIQUETA = 2  # >
+    SIMBOLO_IGUAL = 3
+    SIMBOLO_DIAGONAL = 4
+
+    RESERVADA = 100
+    # Expresiones Regulares
+    ID = 400
+    VALOR_INTERMEDIO = 401
+    COMENTARIO = 402
+    CADENA = 403
+    INICIO_COMENTARIO = 404  # <!--
+    FIN_COMENTARIO = 405  # -->
+
+
 class Token:
 
     def __init__(self, tipoToken, lexemaValor):

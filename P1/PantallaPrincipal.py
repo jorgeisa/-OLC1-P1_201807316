@@ -206,7 +206,6 @@ class PantallaPrincipal:
         elif token.tipoToken.value != 401:
             self.txtEntrada.insert(END, f"{token.lexemaValor}", 'colorOtros')
 
-
     # Dispara el Filechooser
     def abrirArchivo(self):
         nameFile = filedialog.askopenfilename(title="Seleccione archivo", filetypes=
@@ -246,5 +245,3 @@ class PantallaPrincipal:
                 contadorT += 1
                 self.txtConsola.insert(END, f"{contadorT}. TOKEN: {i.tipoToken.name} ,"
                                             f" VALOR: {i.lexemaValor}\n")
-
-
