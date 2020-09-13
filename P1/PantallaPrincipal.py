@@ -30,6 +30,7 @@ class PantallaPrincipal:
         self.window = Tk()
         self.txtEntrada = Entry(self.window, width=15)
         self.txtConsola = Entry(self.window, width=15)
+        self.txtBitacoraCSS = Entry(self.window, width=15)
 
         # PROPIEDADES DE LA VENTANA, CENTRADO, TAMANIO, etc
         self.window.title("Proyecto 1 - Analizador JavaScript")  # Titulo de la ventana
@@ -41,7 +42,7 @@ class PantallaPrincipal:
         x = (widthScreen / 2) - (widthTK / 2)  # Posicion de centrado en x
         y = (heightScreen / 2) - (heightTK / 2)  # Posicion de centrado en y
 
-        self.window.geometry('%dx%d+%d+%d' % (widthTK + 200, heightTK, x, y - 25))  # Colocarle la vetana en el centro
+        self.window.geometry('%dx%d+%d+%d' % (widthTK + 550, heightTK, x-280, y - 25))  # Colocarle la vetana en el centro
 
         self.window.configure(bg='#6A90FF')  # Darle color a la ventana (fondo)
 
@@ -83,6 +84,13 @@ class PantallaPrincipal:
         self.txtEntrada = scrolledtext.ScrolledText(self.window, width=110, height=25)  # 80,25
         self.txtEntrada.pack()
         self.txtEntrada.place(x=50, y=50)
+
+        # PROPIEDADES DEL TXT BITACORA
+        self.txtBitacoraCSS = scrolledtext.ScrolledText(self.window, width=40, height=35, bg="#000000", fg="white")  # 80,25
+        self.txtBitacoraCSS.pack()
+        self.txtBitacoraCSS.place(x=975, y=100)
+        self.lblBitacoraCSS = Label(self.window, text=f"BITACORA CSS: ")
+        self.lblBitacoraCSS.place(x=975, y=70)
 
         #  colores
         self.txtEntrada.tag_config('colorReservada', foreground='red')
@@ -161,6 +169,10 @@ class PantallaPrincipal:
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
                 self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
                 self.colorearCSS(miScanner)
+
+                bitacora = miScanner.bitacoraCSS
+                self.txtBitacoraCSS.insert(END, f"{bitacora}")
+
                 self.ultimoPathAbierto = miScanner.pathSalida
                 self.reportarErrores(miScanner, "CSS")
 

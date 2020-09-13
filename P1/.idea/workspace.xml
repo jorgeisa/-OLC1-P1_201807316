@@ -3,6 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2d5adfe7-6789-4bcd-9ea1-c837c3baac28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFDS/AFDCSS.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/AFDS/AFDCSS.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFDS/AFDHTML.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/AFDS/AFDHTML.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFDS/AFDJS.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/AFDS/AFDJS.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AnalizadorLexicoCSS.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorLexicoCSS.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PantallaPrincipal.py" beforeDir="false" afterPath="$PROJECT_DIR$/PantallaPrincipal.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -157,22 +161,22 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="140" y="0" key="CommitChangelistDialog2/0.0.1536.864@0.0.1536.864" timestamp="1599466816928" />
-    <state width="1515" height="211" key="GridCell.Tab.0.bottom" timestamp="1600026232845">
+    <state width="1515" height="211" key="GridCell.Tab.0.bottom" timestamp="1600039798090">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="211" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1600026232845" />
-    <state width="1515" height="211" key="GridCell.Tab.0.center" timestamp="1600026232845">
+    <state width="1515" height="211" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1600039798090" />
+    <state width="1515" height="211" key="GridCell.Tab.0.center" timestamp="1600039798090">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="211" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1600026232845" />
-    <state width="1515" height="211" key="GridCell.Tab.0.left" timestamp="1600026232845">
+    <state width="1515" height="211" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1600039798090" />
+    <state width="1515" height="211" key="GridCell.Tab.0.left" timestamp="1600039798090">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="211" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1600026232845" />
-    <state width="1515" height="211" key="GridCell.Tab.0.right" timestamp="1600026232845">
+    <state width="1515" height="211" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1600039798090" />
+    <state width="1515" height="211" key="GridCell.Tab.0.right" timestamp="1600039798090">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1515" height="211" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1600026232845" />
+    <state width="1515" height="211" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1600039798090" />
     <state width="745" height="330" key="GridCell.Tab.1.bottom" timestamp="1599987002077">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -205,10 +209,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="12" y="0" width="623" height="358" key="dock-window-1/0.0.1536.864@0.0.1536.864" timestamp="1600024414184" />
-    <state x="-6" y="0" width="781" height="870" key="dock-window-2" timestamp="1599975667118">
+    <state x="1012" y="0" width="530" height="870" key="dock-window-2" timestamp="1600037973494">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="-6" y="0" width="781" height="870" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1599975667118" />
+    <state x="1012" y="0" width="530" height="870" key="dock-window-2/0.0.1536.864@0.0.1536.864" timestamp="1600037973494" />
     <state x="0" y="0" width="636" height="591" key="dock-window-3" timestamp="1599470918597">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
