@@ -14,6 +14,8 @@ from Token import TipoTokenHTML
 
 class PantallaPrincipal:
     nameArchivoEntrada = ""
+    contadorReportesHtml = 0
+    booleanAnalizar = False
 
     # Metodo que contiene la definicion de la interfaz grafica
     def getInfo(self, event):
@@ -24,6 +26,7 @@ class PantallaPrincipal:
         self.lblPosition.place(x=200, y=465)
 
     def __init__(self):
+        self.ultimoPathAbierto = ""
         self.window = Tk()
         self.txtEntrada = Entry(self.window, width=15)
         self.txtConsola = Entry(self.window, width=15)
@@ -51,21 +54,21 @@ class PantallaPrincipal:
         # Agregando las opciones en el menu desplegable
         self.menu = Menu(self.window)
         self.file_item = Menu(self.menu)  # File
-        self.file_item.add_command(label='Nuevo')
+        self.file_item.add_command(label='Nuevo', command=self.nuevoOpcionMenu)
         self.file_item.add_separator()
         self.file_item.add_command(label='Abrir Archivo', command=self.abrirArchivo)
         self.file_item.add_separator()
-        self.file_item.add_command(label='Guardar Archivo')
+        self.file_item.add_command(label='Guardar Archivo', command=self.guardarEnRutaArchivo)
         self.file_item.add_separator()
-        self.file_item.add_command(label='Guardar archivo como...')
+        self.file_item.add_command(label='Guardar archivo como...', command=self.guardarArchivoComo)
         self.file_item.add_separator()
         self.file_item.add_command(label='Ejecutar Analisis JS', command=self.Analisis)
         self.file_item.add_separator()
-        self.file_item.add_command(label='Exit')
+        self.file_item.add_command(label='Exit', command=exit)
 
         self.report_item = Menu(self.menu)  # Reports
-        self.report_item.add_separator()
-        self.report_item.add_command(label='Errors')
+        # self.report_item.add_separator()
+        # self.report_item.add_command(label='Errores!', command=self.reportarErrores)
         self.report_item.add_separator()
         self.report_item.add_command(label='Tree')
 
@@ -95,23 +98,22 @@ class PantallaPrincipal:
         self.lbl.place(x=50, y=465)
         self.txtConsola = scrolledtext.ScrolledText(self.window, width=110, height=12, bg="#000000", fg="white")
         self.txtConsola.place(x=50, y=490)
-        self.btn = Button(self.window, text="Analyze JS", bg="black", fg="white",
+        self.btn = Button(self.window, text="Analizar JS, CSS, HTML ", bg="black", fg="white",
                           command=self.Analisis)  # boton ANALYZE
 
-        self.lblPosition = Label(self.window, text=f"Posicion (V, H): --")
-        self.lblPosition.place(x=200, y=465)
-
         self.btn.place(x=655, y=460)
-        self.btn = Button(self.window, text="Analyze CSS", bg="black", fg="white", command="")  # boton ANALYZE
-        self.btn.place(x=755, y=460)
-        self.btn = Button(self.window, text="Analyze HTML", bg="black", fg="white",
-                          command=self.getInfo)  # boton ANALYZE
+        # self.btn = Button(self.window, text="Analyze CSS", bg="black", fg="white", command="")  # boton ANALYZE
+        # self.btn.place(x=755, y=460)
+        # self.btn = Button(self.window, text="Analyze HTML", bg="black", fg="white",
+        #                   command=self.getInfo)  # boton ANALYZE
+        # self.btn.place(x=855, y=460)
 
         self.txtEntrada.bind("<Button-1>", self.getInfo)
         self.txtEntrada.bind("<Button-2>", self.getInfo)
         self.txtEntrada.bind("<Button-3>", self.getInfo)
 
-        self.btn.place(x=855, y=460)
+        self.lblPosition = Label(self.window, text=f"Posicion (V, H): --")
+        self.lblPosition.place(x=200, y=465)
 
         # Dispara la interfaz y la mantiene abierta
         self.window.mainloop()
@@ -130,6 +132,7 @@ class PantallaPrincipal:
 
             # Si la extension es .js
             if extension == ".js":
+                self.booleanAnalizar = True
                 miScanner = AnalizadorLexicoJS()
                 listaTokens = miScanner.ScannerJS(entrada)
 
@@ -142,8 +145,11 @@ class PantallaPrincipal:
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
                 self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
                 self.colorearJS(miScanner)
+                self.ultimoPathAbierto = miScanner.pathSalida
+                self.reportarErrores(miScanner, "JS")
 
             elif extension == ".css":
+                self.booleanAnalizar = True
                 miScanner = AnalizadorLexicoCSS()
                 listaTokens = miScanner.ScannerCSS(entrada)
 
@@ -155,19 +161,24 @@ class PantallaPrincipal:
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
                 self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
                 self.colorearCSS(miScanner)
-                print(".css")
+                self.ultimoPathAbierto = miScanner.pathSalida
+                self.reportarErrores(miScanner, "CSS")
+
             elif extension == ".html":
+                self.booleanAnalizar = True
                 miScanner = AnalizadorHTML()
                 listaTokens = miScanner.ScannerHTML(entrada)
 
                 self.txtConsola.delete("1.0", END)
 
                 self.imprimirListasEnConsola(miScanner)
-                messagebox.showinfo('Project 1', 'Analisis Finalizado CSS!')
+                messagebox.showinfo('Project 1', 'Analisis Finalizado HTML!')
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
                 self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
                 self.colorearHTML(miScanner)
-                print(".html")
+                self.ultimoPathAbierto = miScanner.pathSalida
+                self.reportarErrores(miScanner, "HTML")
+
         else:
             self.txtConsola.delete("1.0", END)
             self.txtConsola.insert("1.0", "Abra un archivo de entrada!")
@@ -270,8 +281,38 @@ class PantallaPrincipal:
             self.txtEntrada.delete("1.0", END)
             self.txtEntrada.insert("1.0", contenido)
 
+    def nuevoOpcionMenu(self):
+        self.txtEntrada.delete("1.0", END)  # limpio entrada de texto
+        self.txtConsola.delete("1.0", END)  # limpio consola
+        self.ultimoPathAbierto = ""  # limpio el path guardado
+        self.ScannerGlobal = ""
+        self.booleanAnalizar = False
+
+    def guardarEnRutaArchivo(self):
+        if self.ultimoPathAbierto != "":
+            entradaTexto = self.txtEntrada.get("1.0", END)
+            self.crearArchivo(self.ultimoPathAbierto, entradaTexto)
+        else:
+            print("No hay path aun!... >:[")
+
+    # Para colocarle un nombre y extension al archivo que quiero guardar
+    def guardarArchivoComo(self):
+        nameFile = filedialog.asksaveasfilename(title="Seleccione archivo", defaultextension='.js',
+                                                filetypes=[("js files", '*.js'), ("html files", '*.html'),
+                                                           ("css files", '*.css'), ("txt files", '*.txt')])
+
+        if nameFile != '':
+            extension = os.path.splitext(nameFile)[1]
+            print(f"Su archivo tiene extension: {extension}")
+            entradaTexto = self.txtEntrada.get("1.0", END)
+            self.crearArchivo(nameFile, entradaTexto)
+        else:
+            print("No se escogio o se cancelo!.")
+
+    # Crear un archivo de extension en el nombre
     def crearArchivo(self, path, textoCorregido):
         # C:/Users/Isaac/Desktop/nombrexd.txt
+        # PATHL: C:\Users\Isaac\Desktop\Destino Prueba\CorregidoHtml.html
         file = open(f"{path}", "w")
         file.write(f"{textoCorregido}")
         file.close()
@@ -297,3 +338,44 @@ class PantallaPrincipal:
                 contadorT += 1
                 self.txtConsola.insert(END, f"{contadorT}. TOKEN: {i.tipoToken.name} ,"
                                             f" VALOR: {i.lexemaValor}\n")
+
+    def reportarErrores(self, miScannerP, lenguaje):
+        # PATHL: C:\Users\Isaac\Desktop\VidaMRR-Curso-CSS-master\Tabla\ReporteHTML
+        # C:\Users\Isaac\Desktop\Destino Prueba\ReportesHTML
+        self.contadorReportesHtml += 1
+        path = f"C:/Users/Isaac/Desktop/Destino Prueba" \
+               f"/ReportesHTML/ReporteError{lenguaje}{self.contadorReportesHtml}.html"
+
+        file = open(f"{path}", "w")
+        if self.booleanAnalizar:
+            # Escribir el inicio del HTML
+            file.write(f"<!DOCTYPE html>\n"
+                       f"<html lang = \"en\">\n"
+                       f"<head>\n"
+                       f"<meta charset = \"UTF-8\">\n"
+                       f"<title> Proyecto 1 OLC1 - 201807316 </title>\n"
+                       f"<link rel = \"stylesheet\" href = \"tabla.css\">\n"
+                       f"</head>\n"
+                       f"<body>\n"
+                       f"<div id= \"main-container\">\n"
+                       f"<table>\n"
+                       f"<thead>\n"
+                       f"<tr>\n"
+                       f"<th>No.</th><th>Linea</th><th>Columna</th><th>Descripcion</th>\n"
+                       f"</tr>\n"
+                       f"</thead>\n")
+
+            contadorE = 0
+            for i in miScannerP.lista_ErroresLexicos:
+                contadorE += 1
+                file.write(f"<tr>\n"
+                           f"<td>{contadorE}</td><td>{i.posicion.getPosicionV()}</td>"
+                           f"<td>{i.posicion.getPosicionH()}</td>"
+                           f"<td>El valor de error lexico es: {i.valor}</td>")
+
+            # Escribir la parte final
+            file.write(f"</table>\n"
+                       f"</div>\n"
+                       f"</body>\n"
+                       f"</html>\n")
+        file.close()
