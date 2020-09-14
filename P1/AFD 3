@@ -1,0 +1,22 @@
+// Grafica3
+digraph {
+	rankdir=LR
+	0 [label=E0 shape=circle]
+	8 [label=E8 shape=circle]
+	0 -> 8 [label="/"]
+	10 [label=E10 shape=circle]
+	8 -> 10 [label="*"]
+	10 -> 10 [label=p]
+	10 -> 10 [label=r]
+	10 -> 10 [label=u]
+	10 -> 10 [label=e]
+	10 -> 10 [label=b]
+	10 -> 10 [label=a]
+	10 -> 10 [label=" "]
+	10 -> 10 [label=":"]
+	10 -> 10 [label=D]
+	11 [label=E11 shape=circle]
+	10 -> 11 [label="*"]
+	12 [label=E12 shape=doublecircle]
+	11 -> 12 [label="/"]
+}

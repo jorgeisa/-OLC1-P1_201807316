@@ -1,0 +1,21 @@
+// Grafica1
+digraph {
+	rankdir=LR
+	0 [label=E0 shape=circle]
+	21 [label=E21 shape=circle width=1]
+	0 -> 21 [label="\" Comillas"]
+	21 -> 21 [label=s dir=forward]
+	21 -> 21 [label=e dir=forward]
+	21 -> 21 [label=s dir=forward]
+	21 -> 21 [label=s dir=forward]
+	21 -> 21 [label=i dir=forward]
+	21 -> 21 [label=o dir=forward]
+	21 -> 21 [label=n dir=forward]
+	21 -> 21 [label="-" dir=forward]
+	21 -> 21 [label=u dir=forward]
+	21 -> 21 [label=s dir=forward]
+	21 -> 21 [label=e dir=forward]
+	21 -> 21 [label=r dir=forward]
+	30 [label=E30 shape=doublecircle]
+	21 -> 30 [label="\" Comillas"]
+}

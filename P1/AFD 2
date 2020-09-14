@@ -1,0 +1,14 @@
+// Grafica2
+digraph {
+	rankdir=LR
+	0 [label=E0 shape=circle]
+	2 [label=E2 shape=doublecircle]
+	0 -> 2 [label=f]
+	2 -> 2 [label=u]
+	2 -> 2 [label=n]
+	2 -> 2 [label=c]
+	2 -> 2 [label=t]
+	2 -> 2 [label=i]
+	2 -> 2 [label=o]
+	2 -> 2 [label=n]
+}
