@@ -3,8 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="2d5adfe7-6789-4bcd-9ea1-c837c3baac28" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AFDS/AFDJS.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/AFDS/AFDJS.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFD 1" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFD 1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFD 2" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFD 2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFD 3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFD 3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AFDS/AFDJS.jff" beforeDir="false" afterPath="$PROJECT_DIR$/AFDS/AFDJS.jff" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnalizadorLexicoJS.py" beforeDir="false" afterPath="$PROJECT_DIR$/AnalizadorLexicoJS.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PantallaPrincipal.py" beforeDir="false" afterPath="$PROJECT_DIR$/PantallaPrincipal.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -34,6 +41,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Isaac\Desktop\2S2020\Compiladores 1\Laboratorio\Proyectos\Proyecto No 1\P1" />
+    </key>
   </component>
   <component name="RunManager" selected="Python.main">
     <configuration name="PantallaPrincipal" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
@@ -155,26 +167,30 @@
     <option name="LAST_COMMIT_MESSAGE" value="Analizador JS" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="499" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1600316360324">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="499" y="179" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1536.864@0.0.1536.864" timestamp="1600316360324" />
     <state x="140" y="0" key="CommitChangelistDialog2" timestamp="1599466816928">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="140" y="0" key="CommitChangelistDialog2/0.0.1536.864@0.0.1536.864" timestamp="1599466816928" />
-    <state width="745" height="330" key="GridCell.Tab.0.bottom" timestamp="1600085732837">
+    <state width="1515" height="242" key="GridCell.Tab.0.bottom" timestamp="1600316505520">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="745" height="330" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1600085732837" />
-    <state width="745" height="330" key="GridCell.Tab.0.center" timestamp="1600085732837">
+    <state width="1515" height="242" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1600316505520" />
+    <state width="1515" height="242" key="GridCell.Tab.0.center" timestamp="1600316505520">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="745" height="330" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1600085732837" />
-    <state width="745" height="330" key="GridCell.Tab.0.left" timestamp="1600085732837">
+    <state width="1515" height="242" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1600316505520" />
+    <state width="1515" height="242" key="GridCell.Tab.0.left" timestamp="1600316505520">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="745" height="330" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1600085732837" />
-    <state width="745" height="330" key="GridCell.Tab.0.right" timestamp="1600085732837">
+    <state width="1515" height="242" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1600316505520" />
+    <state width="1515" height="242" key="GridCell.Tab.0.right" timestamp="1600316505520">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="745" height="330" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1600085732837" />
+    <state width="1515" height="242" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1600316505520" />
     <state width="745" height="330" key="GridCell.Tab.1.bottom" timestamp="1600085732837">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -195,10 +211,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="555" y="77" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1599374240786" />
-    <state x="465" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1599981554643">
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1600313941253">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1599981554643" />
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1600313941253" />
     <state x="195" y="352" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599460480808">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -215,10 +231,10 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="-6" y="0" width="781" height="870" key="dock-window-3/0.0.1536.864@0.0.1536.864" timestamp="1600085730827" />
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1600044386565">
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1600310527920">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1600044386565" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1600310527920" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -227,16 +243,6 @@
           <url>file://$PROJECT_DIR$/AnalizadorHTML.py</url>
           <line>138</line>
           <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalizadorLexicoJS.py</url>
-          <line>82</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/AnalizadorLexicoJS.py</url>
-          <line>91</line>
-          <option name="timeStamp" value="22" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

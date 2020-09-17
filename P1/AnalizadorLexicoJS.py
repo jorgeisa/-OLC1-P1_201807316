@@ -19,13 +19,13 @@ class AnalizadorLexicoJS:
         self.contadorV = 1
         self.contadorH = 1
         self.posicion = 0
-        self.dotAFD1 = Digraph(comment="Grafica1", format='jpg')
-        self.dotAFD2 = Digraph(comment="Grafica2", format='jpg')
-        self.dotAFD3 = Digraph(comment="Grafica3", format='jpg')
+        self.dotAFD1 = Digraph(comment="Grafica1", format='png')
+        self.dotAFD2 = Digraph(comment="Grafica2", format='png')
+        self.dotAFD3 = Digraph(comment="Grafica3", format='png')
         self.boolGrafo1 = False
         self.boolGrafo2 = False
-        self.boolReservada = False
         self.boolGrafo3 = False
+        self.boolReservada = False
 
     def agregarToken(self, tipoToken, lexemaValor):
         self.lista_Tokens.append(Token(tipoToken, lexemaValor))
@@ -152,7 +152,6 @@ class AnalizadorLexicoJS:
         if not self.boolGrafo2:
             self.dotAFD2.attr(rankdir='LR')
             self.dotAFD2.node("0", label="E0", shape="circle")
-            self.dotAFD2.node("2", label="E2", shape="doublecircle")
 
         final = self.obtenerLongitud() + self.posicion
         for i in range(self.posicion, final):
@@ -160,13 +159,16 @@ class AnalizadorLexicoJS:
 
         # E0 -> E6
         if self.evaluarReservadas():
-            if not self.boolGrafo2:
-                self.dotAFD2.edge("0", "2", self.entradaTexto[self.posicion])
-                for i in range(self.posicion, final):
-                    if (self.posicion + 1) != final:
-                        self.dotAFD2.edge("2", "2", self.entradaTexto[i + 1], dir="forward")
+            # if not self.boolGrafo2:
+            #    self.dotAFD2.edge("0", "2", self.entradaTexto[self.posicion])
+            #    for i in range(self.posicion, final):
+            #        if (self.posicion + 1) != final:
+            #            self.dotAFD2.edge("2", "2", self.entradaTexto[i + 1], dir="forward")
             self.contadorH += self.obtenerLongitud()
             return
+
+        if not self.boolGrafo2:
+            self.dotAFD2.node("2", label="E2", shape="doublecircle")
 
         # E0 -> E2
         self.estadoE2(final)
@@ -455,7 +457,7 @@ class AnalizadorLexicoJS:
     def estadoE21(self):
         if not self.boolGrafo1:
             self.dotAFD1.attr(rankdir='LR')
-            self.dotAFD1.node(f"0", label="E0", shape="circle")
+            self.dotAFD1.node(f"0", label="E0", shape="circle") # ID  ,   LABEL,   FORMA
             self.dotAFD1.node(f"21", label="E21", shape="circle", width="1")
             self.dotAFD1.edge("0", "21", "\" Comillas")
         self.lexemaTemp += self.entradaTexto[self.posicion]
@@ -536,61 +538,61 @@ class AnalizadorLexicoJS:
     def evaluarReservadas(self):
         if self.lexemaTemp.lower() == "return":
             self.agregarToken(TipoToken.RESERVADA_RETURN, "return")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "return")
             return True
         elif self.lexemaTemp.lower() == "break":
             self.agregarToken(TipoToken.RESERVADA_BREAK, "break")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "break")
             return True
         elif self.lexemaTemp.lower() == "continue":
             self.agregarToken(TipoToken.RESERVADA_CONTINUE, "continue")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "continue")
             return True
         elif self.lexemaTemp.lower() == "do":
             self.agregarToken(TipoToken.RESERVADA_DO, "do")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "do")
             return True
         elif self.lexemaTemp.lower() == "while":
             self.agregarToken(TipoToken.RESERVADA_WHILE, "while")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "while")
             return True
         elif self.lexemaTemp.lower() == "for":
             self.agregarToken(TipoToken.RESERVADA_FOR, "for")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "for")
             return True
         elif self.lexemaTemp.lower() == "if":
             self.agregarToken(TipoToken.RESERVADA_IF, "if")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "if")
             return True
         elif self.lexemaTemp.lower() == "var":
             self.agregarToken(TipoToken.RESERVADA_VAR, "var")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "var")
             return True
         elif self.lexemaTemp.lower() == "math":
             self.agregarToken(TipoToken.RESERVADA_VAR, "Math")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "Math")
             return True
         elif self.lexemaTemp.lower() == "pow":
             self.agregarToken(TipoToken.RESERVADA_VAR, "pow")
-            if self.boolGrafo2:
+            if not self.boolGrafo2:
                 self.dotAFD2.node("6", label="E6", shape="doublecircle")
                 self.dotAFD2.edge("0", "6", "pow")
             return True

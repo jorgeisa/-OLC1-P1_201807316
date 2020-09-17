@@ -1,5 +1,4 @@
 from graphviz import Digraph
-
 from PantallaPrincipal import PantallaPrincipal
 import os
 

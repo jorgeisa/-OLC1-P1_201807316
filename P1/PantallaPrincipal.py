@@ -7,6 +7,7 @@ from tkinter import messagebox  # message box
 from AnalizadorLexicoJS import AnalizadorLexicoJS
 from AnalizadorLexicoCSS import AnalizadorLexicoCSS
 from AnalizadorHTML import AnalizadorHTML
+from PIL import Image
 from Token import TipoToken
 from Token import TipoTokenCSS
 from Token import TipoTokenHTML
@@ -15,7 +16,10 @@ from Token import TipoTokenHTML
 class PantallaPrincipal:
     nameArchivoEntrada = ""
     contadorReportesHtml = 0
+    contadorReprotesErrores = 0
+    contadorImagenesLabel = 1
     booleanAnalizar = False
+    booleanAbrirImagen = False
 
     # Metodo que contiene la definicion de la interfaz grafica
     def getInfo(self, event):
@@ -27,9 +31,12 @@ class PantallaPrincipal:
 
     def __init__(self):
         self.ultimoPathAbierto = ""
+        self.ultimaExtensionAbierta = ""
         self.window = Tk()
         self.txtEntrada = Entry(self.window, width=15)
         self.txtConsola = Entry(self.window, width=15)
+        # self.fondo = Label(self.window)
+
         self.txtBitacoraCSS = Entry(self.window, width=15)
 
         # PROPIEDADES DE LA VENTANA, CENTRADO, TAMANIO, etc
@@ -42,7 +49,8 @@ class PantallaPrincipal:
         x = (widthScreen / 2) - (widthTK / 2)  # Posicion de centrado en x
         y = (heightScreen / 2) - (heightTK / 2)  # Posicion de centrado en y
 
-        self.window.geometry('%dx%d+%d+%d' % (widthTK + 550, heightTK, x-280, y - 25))  # Colocarle la vetana en el centro
+        self.window.geometry(
+            '%dx%d+%d+%d' % (widthTK + 550, heightTK, x - 280, y - 25))  # Colocarle la vetana en el centro
 
         self.window.configure(bg='#6A90FF')  # Darle color a la ventana (fondo)
 
@@ -86,11 +94,24 @@ class PantallaPrincipal:
         self.txtEntrada.place(x=50, y=50)
 
         # PROPIEDADES DEL TXT BITACORA
-        self.txtBitacoraCSS = scrolledtext.ScrolledText(self.window, width=40, height=35, bg="#000000", fg="white")  # 80,25
+        self.txtBitacoraCSS = scrolledtext.ScrolledText(self.window, width=65, height=12, bg="#000000",
+                                                        fg="white")  # 80,25
         self.txtBitacoraCSS.pack()
-        self.txtBitacoraCSS.place(x=975, y=100)
+        self.txtBitacoraCSS.place(x=975, y=490)
         self.lblBitacoraCSS = Label(self.window, text=f"BITACORA CSS: ")
-        self.lblBitacoraCSS.place(x=975, y=70)
+        self.lblBitacoraCSS.place(x=975, y=465)
+
+        # LABEL PARA MOSTRAR IMAGENES DE GRAFO
+        self.lbltxtGrafica = Label(self.window, text=f"Graficas JS:")
+        self.lbltxtGrafica.place(x=975, y=420)
+
+        self.mostrarImagenes = Button(self.window, text="Mostrar Imagen", bg="black", fg="white",
+                                      command=self.colocarImagenesEnLabel)
+        self.mostrarImagenes.place(x=1070, y=420)
+
+        self.img = PhotoImage()
+        self.fondo = Label()
+        self.imgAbrir = Image
 
         #  colores
         self.txtEntrada.tag_config('colorReservada', foreground='red')
@@ -144,6 +165,10 @@ class PantallaPrincipal:
                 miScanner = AnalizadorLexicoJS()
                 listaTokens = miScanner.ScannerJS(entrada)
 
+                if not os.path.exists(miScanner.pathSalida):
+                    print("Direccion no existe! Se creo :D")
+                    os.makedirs(miScanner.pathSalida)
+
                 # Borrar la consola
                 self.txtConsola.delete("1.0", END)
 
@@ -151,15 +176,26 @@ class PantallaPrincipal:
                 self.imprimirListasEnConsola(miScanner)
                 messagebox.showinfo('Project 1', 'Analisis Finalizado JS!')
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
-                self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
+
+                self.contadorReprotesErrores += 1
+                pathReporteError = f"{miScanner.pathSalida}JS_ReporteCorregido{self.contadorReprotesErrores}.js"
+                self.crearArchivo(pathReporteError, miScanner.textoCorregido)
+
                 self.colorearJS(miScanner)
                 self.ultimoPathAbierto = miScanner.pathSalida
+
                 self.reportarErrores(miScanner, "JS")
+
+                self.booleanAbrirImagen = True
 
             elif extension == ".css":
                 self.booleanAnalizar = True
                 miScanner = AnalizadorLexicoCSS()
                 listaTokens = miScanner.ScannerCSS(entrada)
+
+                if not os.path.exists(miScanner.pathSalida):
+                    print("Direccion no existe! Se creo :D")
+                    os.makedirs(miScanner.pathSalida)
 
                 # Borrar la consola
                 self.txtConsola.delete("1.0", END)
@@ -167,10 +203,14 @@ class PantallaPrincipal:
                 self.imprimirListasEnConsola(miScanner)
                 messagebox.showinfo('Project 1', 'Analisis Finalizado CSS!')
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
-                self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
-                self.colorearCSS(miScanner)
 
+                self.contadorReprotesErrores += 1
+                pathReporteError = f"{miScanner.pathSalida}CSS_ReporteCorregido{self.contadorReprotesErrores}.css"
+                self.crearArchivo(pathReporteError, miScanner.textoCorregido)
+
+                self.colorearCSS(miScanner)
                 bitacora = miScanner.bitacoraCSS
+                self.txtBitacoraCSS.delete("1.0", END)
                 self.txtBitacoraCSS.insert(END, f"{bitacora}")
 
                 self.ultimoPathAbierto = miScanner.pathSalida
@@ -181,12 +221,20 @@ class PantallaPrincipal:
                 miScanner = AnalizadorHTML()
                 listaTokens = miScanner.ScannerHTML(entrada)
 
+                if not os.path.exists(miScanner.pathSalida):
+                    print("Direccion no existe! Se creo :D")
+                    os.makedirs(miScanner.pathSalida)
+
                 self.txtConsola.delete("1.0", END)
 
                 self.imprimirListasEnConsola(miScanner)
                 messagebox.showinfo('Project 1', 'Analisis Finalizado HTML!')
                 print(f"Este es la direccion de salida: {miScanner.pathSalida}")
-                self.crearArchivo(f"{miScanner.pathSalida}", miScanner.textoCorregido)
+
+                self.contadorReprotesErrores += 1
+                pathReporteError = f"{miScanner.pathSalida}HTML_ReporteCorregido{self.contadorReprotesErrores}.html"
+                self.crearArchivo(pathReporteError, miScanner.textoCorregido)
+
                 self.colorearHTML(miScanner)
                 self.ultimoPathAbierto = miScanner.pathSalida
                 self.reportarErrores(miScanner, "HTML")
@@ -312,7 +360,6 @@ class PantallaPrincipal:
         nameFile = filedialog.asksaveasfilename(title="Seleccione archivo", defaultextension='.js',
                                                 filetypes=[("js files", '*.js'), ("html files", '*.html'),
                                                            ("css files", '*.css'), ("txt files", '*.txt')])
-
         if nameFile != '':
             extension = os.path.splitext(nameFile)[1]
             print(f"Su archivo tiene extension: {extension}")
@@ -391,3 +438,17 @@ class PantallaPrincipal:
                        f"</body>\n"
                        f"</html>\n")
         file.close()
+
+    def colocarImagenesEnLabel(self):
+        if self.booleanAbrirImagen == True:
+            if self.contadorImagenesLabel < 4:
+                self.img = PhotoImage(file=f"AFD {self.contadorImagenesLabel}.png")
+                self.fondo = Label(self.window, image=self.img, width=550, height=350)
+                self.fondo.place(x=970, y=50)
+                self.imgAbrir = Image.open(f"AFD {self.contadorImagenesLabel}.png")
+                self.imgAbrir.show()
+            else:
+                self.contadorImagenesLabel = 0
+            self.contadorImagenesLabel += 1
+        else:
+            print("No ha analizado aun!")
